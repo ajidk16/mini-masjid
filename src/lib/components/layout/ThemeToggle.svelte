@@ -29,7 +29,7 @@
 </script>
 
 <label class="swap swap-rotate btn btn-ghost btn-circle">
-	<input type="checkbox" checked={isDark} onchange={toggleTheme} />
+	<input type="checkbox" class='hidden' checked={isDark} onchange={toggleTheme} />
 	<!-- Sun icon -->
 	<svg class="swap-off h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path
