@@ -1,13 +1,17 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
-	import { Toast } from '$lib/components/ui';
+	import { page } from '$app/state';
+	import Toast, {
+		success as toastSuccess,
+		error as toastError
+	} from '$lib/components/ui/Toast.svelte';
 	import { ArrowLeft, Save, Camera, Upload, X, Trash2 } from 'lucide-svelte';
 
-	let { data, form } = $props();
+	let {  form } = $props();
 
 	let isSubmitting = $state(false);
-	let avatarPreview = $state<string | null>(data.member?.avatar || null);
+	let avatarPreview = $state<string | null>(page.data.member?.avatar || null);
 	let avatarInput: HTMLInputElement;
 
 	function handleAvatarChange(e: Event) {
@@ -26,10 +30,10 @@
 		return async ({ result, update }: any) => {
 			isSubmitting = false;
 			if (result.type === 'redirect') {
-				Toast.success('Data jamaah berhasil diperbarui');
+				toastSuccess('Data jamaah berhasil diperbarui');
 				goto(result.location);
 			} else if (result.type === 'failure') {
-				Toast.error(result.data?.error || 'Gagal menyimpan');
+				toastError(result.data?.error || 'Gagal menyimpan');
 			} else {
 				await update();
 			}
@@ -85,7 +89,7 @@
 
 			<!-- Avatar Upload -->
 			<div class="form-control">
-				<label class="label"><span class="label-text">Foto Profil</span></label>
+				<label for="avatar" class="label"><span class="label-text">Foto Profil</span></label>
 				<div class="flex items-center gap-4">
 					<div class="avatar {avatarPreview ? '' : 'placeholder'}">
 						{#if avatarPreview}
@@ -131,14 +135,14 @@
 
 			<!-- Name -->
 			<div class="form-control">
-				<label class="label"
+				<label for="name" class="label"
 					><span class="label-text">Nama Lengkap <span class="text-error">*</span></span></label
 				>
 				<input
 					type="text"
 					name="name"
 					class="input input-bordered w-full"
-					value={data.member?.name || ''}
+					value={page.data.member?.name || ''}
 					required
 				/>
 			</div>
@@ -146,25 +150,25 @@
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<!-- NIK -->
 				<div class="form-control">
-					<label class="label"><span class="label-text">NIK</span></label>
+					<label for="nik" class="label"><span class="label-text">NIK</span></label>
 					<input
 						type="text"
 						name="nik"
 						class="input input-bordered w-full"
-						value={data.member?.nik || ''}
+						value={page.data.member?.nik || ''}
 						maxlength="16"
 					/>
 				</div>
 
 				<!-- Gender -->
 				<div class="form-control">
-					<label class="label"
+					<label for="gender" class="label"
 						><span class="label-text">Jenis Kelamin <span class="text-error">*</span></span></label
 					>
 					<select name="gender" class="select select-bordered w-full" required>
 						<option value="" disabled>Pilih</option>
-						<option value="male" selected={data.member?.gender === 'male'}>Laki-laki</option>
-						<option value="female" selected={data.member?.gender === 'female'}>Perempuan</option>
+						<option value="male" selected={page.data.member?.gender === 'male'}>Laki-laki</option>
+						<option value="female" selected={page.data.member?.gender === 'female'}>Perempuan</option>
 					</select>
 				</div>
 			</div>
@@ -172,55 +176,55 @@
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<!-- Birth Date -->
 				<div class="form-control">
-					<label class="label"><span class="label-text">Tanggal Lahir</span></label>
+					<label for="birthDate" class="label"><span class="label-text">Tanggal Lahir</span></label>
 					<input
 						type="date"
 						name="birthDate"
 						class="input input-bordered w-full"
-						value={data.member?.birthDate?.split('T')[0] || ''}
+						value={page.data.member?.birthDate?.split('T')[0] || ''}
 					/>
 				</div>
 
 				<!-- Phone -->
 				<div class="form-control">
-					<label class="label"><span class="label-text">No. Telepon</span></label>
+					<label for="phone" class="label"><span class="label-text">No. Telepon</span></label>
 					<input
 						type="tel"
 						name="phone"
 						class="input input-bordered w-full"
-						value={data.member?.phone || ''}
+						value={page.data.member?.phone || ''}
 					/>
 				</div>
 			</div>
 
 			<!-- Email -->
 			<div class="form-control">
-				<label class="label"><span class="label-text">Email</span></label>
+				<label for="email" class="label"><span class="label-text">Email</span></label>
 				<input
 					type="email"
 					name="email"
 					class="input input-bordered w-full"
-					value={data.member?.email || ''}
+					value={page.data.member?.email || ''}
 				/>
 			</div>
 
 			<!-- Address -->
 			<div class="form-control">
-				<label class="label"><span class="label-text">Alamat</span></label>
+				<label for="address" class="label"><span class="label-text">Alamat</span></label>
 				<textarea
 					name="address"
 					class="textarea textarea-bordered w-full"
 					rows="3"
-					value={data.member?.address || ''}
+					value={page.data.member?.address || ''}
 				></textarea>
 			</div>
 
 			<!-- Status -->
 			<div class="form-control">
-				<label class="label"><span class="label-text">Status</span></label>
+				<label for="status" class="label"><span class="label-text">Status</span></label>
 				<select name="status" class="select select-bordered w-full">
-					<option value="active" selected={data.member?.status === 'active'}>Aktif</option>
-					<option value="inactive" selected={data.member?.status === 'inactive'}>Tidak Aktif</option
+					<option value="active" selected={page.data.member?.status === 'active'}>Aktif</option>
+					<option value="inactive" selected={page.data.member?.status === 'inactive'}>Tidak Aktif</option
 					>
 				</select>
 			</div>

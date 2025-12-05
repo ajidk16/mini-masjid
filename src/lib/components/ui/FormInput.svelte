@@ -21,7 +21,7 @@
 
 <div class="form-control w-full">
 	{#if label}
-		<label class="label">
+		<label for={label} class="label">
 			<span class="label-text">{label}</span>
 		</label>
 	{/if}
@@ -29,16 +29,16 @@
 	<input
 		{type}
 		bind:value
-		class="input input-bordered w-full w-full {error ? 'input-error' : ''} {className}"
+		class="input input-bordered w-full {error ? 'input-error' : ''} {className}"
 		{...restProps}
 	/>
 
 	{#if error}
-		<label class="label">
+		<label for={label} class="label">
 			<span class="label-text-alt text-error">{error}</span>
 		</label>
 	{:else if hint}
-		<label class="label">
+		<label for={label} class="label">
 			<span class="label-text-alt text-base-content/60">{hint}</span>
 		</label>
 	{/if}

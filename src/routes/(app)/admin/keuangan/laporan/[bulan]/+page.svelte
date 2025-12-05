@@ -1,8 +1,7 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { Chart, Badge } from '$lib/components/ui';
 	import { ArrowLeft, Download, TrendingUp, TrendingDown, Wallet, Calendar } from 'lucide-svelte';
-
-	let { data } = $props();
 
 	// Format currency
 	function formatCurrency(value: number): string {
@@ -17,7 +16,7 @@
 	const dailyChartOptions = {
 		colors: ['#10b981', '#ef4444'],
 		xaxis: {
-			categories: data.dailyLabels || []
+			categories: page.data.dailyLabels || []
 		},
 		yaxis: {
 			labels: {
@@ -34,18 +33,18 @@
 	};
 
 	const dailySeries = [
-		{ name: 'Pemasukan', data: data.dailyIncome || [] },
-		{ name: 'Pengeluaran', data: data.dailyExpense || [] }
+		{ name: 'Pemasukan', data: page.data.dailyIncome || [] },
+		{ name: 'Pengeluaran', data: page.data.dailyExpense || [] }
 	];
 
 	// Stats
 	const totalIncome = $derived(
-		data.transactions
+		page.data.transactions
 			?.filter((t: any) => t.type === 'income')
 			.reduce((a: number, b: any) => a + b.amount, 0) || 0
 	);
 	const totalExpense = $derived(
-		data.transactions
+		page.data.transactions
 			?.filter((t: any) => t.type === 'expense')
 			.reduce((a: number, b: any) => a + b.amount, 0) || 0
 	);
@@ -53,7 +52,7 @@
 </script>
 
 <svelte:head>
-	<title>Laporan {data.monthName} {data.year} | Keuangan | MiniMasjid</title>
+	<title>Laporan {page.data.monthName} {page.data.year} | Keuangan | MiniMasjid</title>
 </svelte:head>
 
 <div class="space-y-6">
@@ -64,7 +63,7 @@
 				<ArrowLeft class="w-5 h-5" />
 			</a>
 			<div>
-				<h1 class="text-2xl font-bold">📊 Laporan {data.monthName} {data.year}</h1>
+				<h1 class="text-2xl font-bold">📊 Laporan {page.data.monthName} {page.data.year}</h1>
 				<p class="text-base-content/60">Detail transaksi bulanan</p>
 			</div>
 		</div>
@@ -111,7 +110,7 @@
 	<div class="card bg-base-100 shadow-sm">
 		<div class="card-body">
 			<h2 class="card-title text-lg">📈 Tren Harian</h2>
-			<Chart type="line" series={dailySeries} options={dailyChartOptions} height={300} />
+			<Chart type="line" series={dailySeries} options={dailyChartOptions as any} height={300} />
 		</div>
 	</div>
 
@@ -124,7 +123,7 @@
 					Pemasukan per Kategori
 				</h3>
 				<div class="space-y-3 mt-4">
-					{#each data.incomeCategories || [] as cat}
+					{#each page.data.incomeCategories || [] as cat}
 						<div class="flex justify-between items-center">
 							<span>{cat.name}</span>
 							<div class="flex items-center gap-2">
@@ -145,7 +144,7 @@
 					Pengeluaran per Kategori
 				</h3>
 				<div class="space-y-3 mt-4">
-					{#each data.expenseCategories || [] as cat}
+					{#each page.data.expenseCategories || [] as cat}
 						<div class="flex justify-between items-center">
 							<span>{cat.name}</span>
 							<div class="flex items-center gap-2">
@@ -176,7 +175,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each data.transactions || [] as tx}
+						{#each page.data.transactions || [] as tx}
 							<tr class="hover:bg-base-200/50">
 								<td>
 									<div class="flex items-center gap-2">

@@ -1,25 +1,25 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { StatsCard, Chart } from '$lib/components/ui';
 	import { Wallet, TrendingUp, TrendingDown, BarChart3, Plus, ArrowRight } from 'lucide-svelte';
 
-	let { data } = $props();
 
 	// Chart data for cashflow
 	const cashflowSeries = $derived([
 		{
 			name: 'Pemasukan',
-			data: data.cashflowData?.income || [0, 0, 0, 0, 0, 0]
+			data: page.data.cashflowData?.income || [0, 0, 0, 0, 0, 0]
 		},
 		{
 			name: 'Pengeluaran',
-			data: data.cashflowData?.expense || [0, 0, 0, 0, 0, 0]
+			data: page.data.cashflowData?.expense || [0, 0, 0, 0, 0, 0]
 		}
 	]);
 
 	const cashflowOptions = {
 		colors: ['#10b981', '#ef4444'],
 		xaxis: {
-			categories: data.cashflowData?.months || ['Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
+			categories: page.data.cashflowData?.months || ['Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
 		},
 		yaxis: {
 			labels: {
@@ -36,13 +36,13 @@
 
 	// Donut charts
 	const incomeCategories = {
-		series: data.incomeByCategory?.values || [45, 25, 18, 12],
-		labels: data.incomeByCategory?.labels || ['Infaq', 'Zakat', 'Sadaqah', 'Wakaf']
+		series: page.data.incomeByCategory?.values || [45, 25, 18, 12],
+		labels: page.data.incomeByCategory?.labels || ['Infaq', 'Zakat', 'Sadaqah', 'Wakaf']
 	};
 
 	const expenseCategories = {
-		series: data.expenseByCategory?.values || [40, 30, 20, 10],
-		labels: data.expenseByCategory?.labels || ['Operasional', 'Proyek', 'Gaji', 'Lainnya']
+		series: page.data.expenseByCategory?.values || [40, 30, 20, 10],
+		labels: page.data.expenseByCategory?.labels || ['Operasional', 'Proyek', 'Gaji', 'Lainnya']
 	};
 
 	const categoryOptions = (labels: string[], colors: string[]) => ({
@@ -109,35 +109,35 @@
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 		<StatsCard
 			title="Saldo Kas"
-			value={formatShortCurrency(data.stats?.balance || 0)}
+			value={formatShortCurrency(page.data.stats?.balance || 0)}
 			icon="💰"
-			trend={data.stats?.balanceTrend || 'up'}
-			trendValue={data.stats?.balanceTrendValue || '+12%'}
+			trend={page.data.stats?.balanceTrend || 'up'}
+			trendValue={page.data.stats?.balanceTrendValue || '+12%'}
 			description="dari bulan lalu"
 		/>
 		<StatsCard
 			title="Total Pemasukan"
-			value={formatShortCurrency(data.stats?.totalIncome || 0)}
+			value={formatShortCurrency(page.data.stats?.totalIncome || 0)}
 			icon="⬆️"
 			trend="up"
-			trendValue="+{data.stats?.incomeCount || 0} transaksi"
+			trendValue="+{page.data.stats?.incomeCount || 0} transaksi"
 			description="bulan ini"
 			class="border-l-4 border-l-success"
 		/>
 		<StatsCard
 			title="Total Pengeluaran"
-			value={formatShortCurrency(data.stats?.totalExpense || 0)}
+			value={formatShortCurrency(page.data.stats?.totalExpense || 0)}
 			icon="⬇️"
 			trend="down"
-			trendValue="{data.stats?.expenseCount || 0} transaksi"
+			trendValue="{page.data.stats?.expenseCount || 0} transaksi"
 			description="bulan ini"
 			class="border-l-4 border-l-error"
 		/>
 		<StatsCard
 			title="Trend"
-			value={data.stats?.trendPercentage || '+12%'}
+			value={page.data.stats?.trendPercentage || '+12%'}
 			icon="📈"
-			trend={data.stats?.trendDirection || 'up'}
+			trend={page.data.stats?.trendDirection || 'up'}
 			trendValue="vs bulan lalu"
 			description="pertumbuhan"
 		/>
@@ -238,8 +238,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#if data.recentTransactions && data.recentTransactions.length > 0}
-							{#each data.recentTransactions as tx}
+						{#if page.data.recentTransactions && page.data.recentTransactions.length > 0}
+							{#each page.data.recentTransactions as tx}
 								<tr class="hover:bg-base-200/50">
 									<td class="text-sm"
 										>{new Date(tx.date).toLocaleDateString('id-ID', {

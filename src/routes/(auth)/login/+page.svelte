@@ -66,7 +66,6 @@
 						placeholder="name@example.com"
 						class="input input-bordered w-full"
 						required
-						autofocus
 					/>
 				</div>
 
@@ -95,7 +94,7 @@
 							{/if}
 						</button>
 					</div>
-					<label class="label justify-end">
+					<label for="forgot-password" class="label justify-end">
 						<a
 							href="/forgot-password"
 							class="label-text-alt link link-primary no-underline hover:underline"

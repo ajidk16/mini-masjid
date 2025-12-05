@@ -422,7 +422,7 @@
 					{#each calendarDays() as day}
 						{@const dayEvents = day ? getEventsForDay(day) : []}
 						<div
-							class="min-h-[80px] border border-base-200 rounded-lg p-1 {day
+							class="min-h-20 border border-base-200 rounded-lg p-1 {day
 								? 'hover:bg-base-200/50'
 								: ''}"
 						>
@@ -479,7 +479,7 @@
 				{/if}
 
 				<div class="form-control">
-					<label class="label"><span class="label-text">Judul Kegiatan *</span></label>
+					<label for="title" class="label"><span class="label-text">Judul Kegiatan *</span></label>
 					<input
 						type="text"
 						name="title"
@@ -492,7 +492,7 @@
 
 				<div class="grid grid-cols-2 gap-4">
 					<div class="form-control">
-						<label class="label"><span class="label-text">Kategori *</span></label>
+						<label for="category" class="label"><span class="label-text">Kategori *</span></label>
 						<select name="category" class="select select-bordered w-full" required>
 							<option value="" disabled selected={!formCategory}>Pilih</option>
 							{#each categories as cat}
@@ -501,7 +501,7 @@
 						</select>
 					</div>
 					<div class="form-control">
-						<label class="label"><span class="label-text">Tanggal *</span></label>
+						<label for="date" class="label"><span class="label-text">Tanggal *</span></label>
 						<input
 							type="date"
 							name="date"
@@ -514,7 +514,7 @@
 
 				<div class="grid grid-cols-2 gap-4">
 					<div class="form-control">
-						<label class="label"><span class="label-text">Waktu Mulai *</span></label>
+						<label for="time" class="label"><span class="label-text">Waktu Mulai *</span></label>
 						<input
 							type="time"
 							name="time"
@@ -524,7 +524,7 @@
 						/>
 					</div>
 					<div class="form-control">
-						<label class="label"><span class="label-text">Waktu Selesai</span></label>
+						<label for="endTime" class="label"><span class="label-text">Waktu Selesai</span></label>
 						<input
 							type="time"
 							name="endTime"
@@ -536,7 +536,7 @@
 
 				<div class="grid grid-cols-2 gap-4">
 					<div class="form-control">
-						<label class="label"><span class="label-text">Lokasi</span></label>
+						<label for="location" class="label"><span class="label-text">Lokasi</span></label>
 						<input
 							type="text"
 							name="location"
@@ -546,7 +546,7 @@
 						/>
 					</div>
 					<div class="form-control">
-						<label class="label"><span class="label-text">Kapasitas</span></label>
+						<label for="capacity" class="label"><span class="label-text">Kapasitas</span></label>
 						<input
 							type="number"
 							name="capacity"
@@ -558,7 +558,7 @@
 				</div>
 
 				<div class="form-control">
-					<label class="label"><span class="label-text">Deskripsi</span></label>
+					<label for="description" class="label"><span class="label-text">Deskripsi</span></label>
 					<textarea
 						name="description"
 						class="textarea textarea-bordered w-full"

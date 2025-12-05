@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { Chart } from '$lib/components/ui';
 	import { Download, FileText, Calendar } from 'lucide-svelte';
 
-	let { data } = $props();
 
 	// Selected period
 	let selectedYear = $state(new Date().getFullYear());
@@ -37,20 +37,20 @@
 	const monthlySeries = [
 		{
 			name: 'Pemasukan',
-			data: data.monthlyIncome || Array(12).fill(0)
+			data: page.data.monthlyIncome || Array(12).fill(0)
 		},
 		{
 			name: 'Pengeluaran',
-			data: data.monthlyExpense || Array(12).fill(0)
+			data: page.data.monthlyExpense || Array(12).fill(0)
 		}
 	];
 
 	// Calculate totals
 	const totalYearIncome = $derived(
-		(data.monthlyIncome || []).reduce((a: number, b: number) => a + b, 0)
+		(page.data.monthlyIncome || []).reduce((a: number, b: number) => a + b, 0)
 	);
 	const totalYearExpense = $derived(
-		(data.monthlyExpense || []).reduce((a: number, b: number) => a + b, 0)
+		(page.data.monthlyExpense || []).reduce((a: number, b: number) => a + b, 0)
 	);
 	const netBalance = $derived(totalYearIncome - totalYearExpense);
 
@@ -144,8 +144,8 @@
 					</thead>
 					<tbody>
 						{#each ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'] as month, i}
-							{@const income = data.monthlyIncome?.[i] || 0}
-							{@const expense = data.monthlyExpense?.[i] || 0}
+							{@const income = page.data.monthlyIncome?.[i] || 0}
+							{@const expense = page.data.monthlyExpense?.[i] || 0}
 							{@const diff = income - expense}
 							<tr class="hover:bg-base-200/50">
 								<td>
@@ -202,9 +202,9 @@
 				<h3 class="font-semibold">📈 Pemasukan per Kategori</h3>
 				<Chart
 					type="pie"
-					series={data.incomeByCategory?.values || [45, 25, 18, 12]}
+					series={page.data.incomeByCategory?.values || [45, 25, 18, 12]}
 					options={{
-						labels: data.incomeByCategory?.labels || ['Infaq', 'Zakat', 'Sadaqah', 'Wakaf'],
+						labels: page.data.incomeByCategory?.labels || ['Infaq', 'Zakat', 'Sadaqah', 'Wakaf'],
 						colors: ['#10b981', '#f59e0b', '#3b82f6', '#8b5cf6']
 					}}
 					height={250}
@@ -216,9 +216,9 @@
 				<h3 class="font-semibold">📉 Pengeluaran per Kategori</h3>
 				<Chart
 					type="pie"
-					series={data.expenseByCategory?.values || [40, 30, 20, 10]}
+					series={page.data.expenseByCategory?.values || [40, 30, 20, 10]}
 					options={{
-						labels: data.expenseByCategory?.labels || ['Operasional', 'Proyek', 'Gaji', 'Lainnya'],
+						labels: page.data.expenseByCategory?.labels || ['Operasional', 'Proyek', 'Gaji', 'Lainnya'],
 						colors: ['#ef4444', '#f97316', '#eab308', '#6b7280']
 					}}
 					height={250}

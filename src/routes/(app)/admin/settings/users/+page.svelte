@@ -144,18 +144,17 @@
 									<MoreVertical class="w-4 h-4" />
 								</div>
 								<ul
-									tabindex="0"
-									class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+									class="dropdown-content z-1 menu p-2 shadow bg-base-100 rounded-box w-52"
 								>
-									<li><a><Shield class="w-4 h-4" /> Change Role</a></li>
+									<li><a href="#change-role"><Shield class="w-4 h-4" /> Change Role</a></li>
 									<li>
 										{#if user.status === 'Active'}
-											<a class="text-warning"><UserX class="w-4 h-4" /> Deactivate</a>
+											<a href="#deactivate" class="text-warning"><UserX class="w-4 h-4" /> Deactivate</a>
 										{:else}
-											<a class="text-success"><UserCheck class="w-4 h-4" /> Activate</a>
+											<a href="#activate" class="text-success"><UserCheck class="w-4 h-4" /> Activate</a>
 										{/if}
 									</li>
-									<li><a class="text-error"><Trash2 class="w-4 h-4" /> Delete</a></li>
+									<li><a href="#delete" class="text-error"><Trash2 class="w-4 h-4" /> Delete</a></li>
 								</ul>
 							</div>
 						</td>

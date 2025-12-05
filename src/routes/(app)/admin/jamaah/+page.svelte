@@ -245,7 +245,7 @@
 	<!-- Filters -->
 	<div class="flex flex-wrap gap-3 items-center">
 		<div class="flex-1 min-w-[200px]">
-			<label class="input input-bordered input-sm flex items-center gap-2 w-full">
+			<label for="" class="input input-bordered input-sm flex items-center gap-2 w-full">
 				<Search class="w-4 h-4 text-base-content/50" />
 				<input
 					type="text"
@@ -536,7 +536,7 @@
 				</div>
 
 				<div class="form-control">
-					<label class="label"><span class="label-text">Pilih File</span></label>
+					<label for="" class="label"><span class="label-text">Pilih File</span></label>
 					<input
 						type="file"
 						accept=".csv,.xlsx,.xls"
@@ -608,7 +608,7 @@
 			<div class="space-y-4">
 				<!-- Channel Selection -->
 				<div class="form-control">
-					<label class="label"><span class="label-text">Kirim Via</span></label>
+					<label for="" class="label"><span class="label-text">Kirim Via</span></label>
 					<div class="join w-full">
 						<button
 							class="join-item btn flex-1"
@@ -640,7 +640,7 @@
 
 				<!-- Message -->
 				<div class="form-control">
-					<label class="label"><span class="label-text">Pesan</span></label>
+					<label for="" class="label"><span class="label-text">Pesan</span></label>
 					<textarea
 						class="textarea textarea-bordered w-full"
 						rows="5"

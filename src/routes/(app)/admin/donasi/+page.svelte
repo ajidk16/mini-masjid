@@ -307,7 +307,7 @@
 				{/if}
 				<div class="space-y-4">
 					<div class="form-control">
-						<label class="label"><span class="label-text">Nama Program</span></label>
+						<label for="" class="label"><span class="label-text">Nama Program</span></label>
 						<input
 							type="text"
 							name="title"
@@ -318,7 +318,7 @@
 						/>
 					</div>
 					<div class="form-control">
-						<label class="label"><span class="label-text">Target Dana (Rp)</span></label>
+						<label for="" class="label"><span class="label-text">Target Dana (Rp)</span></label>
 						<input
 							type="number"
 							name="target"

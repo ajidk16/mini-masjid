@@ -198,7 +198,7 @@
 			<input
 				type="text"
 				placeholder="Cari transaksi..."
-				class="input input-bordered w-full input-sm w-full"
+				class="input input-bordered w-full input-sm"
 				bind:value={searchQuery}
 			/>
 		</div>
@@ -344,7 +344,7 @@
 
 				<div class="grid grid-cols-2 gap-4">
 					<div class="form-control">
-						<label class="label"><span class="label-text">Tanggal *</span></label>
+						<label for="date" class="label"><span class="label-text">Tanggal *</span></label>
 						<input
 							type="date"
 							name="date"
@@ -354,7 +354,7 @@
 						/>
 					</div>
 					<div class="form-control">
-						<label class="label"><span class="label-text">Kategori *</span></label>
+						<label for="category" class="label"><span class="label-text">Kategori *</span></label>
 						<select name="category" class="select select-bordered" required>
 							<option value="" disabled selected={!formCategory}>Pilih</option>
 							<option value="Infaq" selected={formCategory === 'Infaq'}>Infaq</option>
@@ -367,7 +367,7 @@
 				</div>
 
 				<div class="form-control">
-					<label class="label"><span class="label-text">Jumlah *</span></label>
+					<label for="amountRaw" class="label"><span class="label-text">Jumlah *</span></label>
 					<label class="input input-bordered w-full flex items-center gap-2">
 						<span class="text-base-content/60">Rp</span>
 						<input
@@ -383,7 +383,7 @@
 				</div>
 
 				<div class="form-control">
-					<label class="label"><span class="label-text">Keterangan *</span></label>
+					<label for="description" class="label"><span class="label-text">Keterangan *</span></label>
 					<input
 						type="text"
 						name="description"
@@ -395,7 +395,7 @@
 				</div>
 
 				<div class="form-control">
-					<label class="label"><span class="label-text">Catatan</span></label>
+					<label for="notes" class="label"><span class="label-text">Catatan</span></label>
 					<textarea
 						name="notes"
 						class="textarea textarea-bordered w-full"

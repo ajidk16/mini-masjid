@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
-	import { Toast, success as toastSuccess, error as toastError } from '$lib/components/ui';
+	import { page } from '$app/state';
+	import Toast, { success as toastSuccess, error as toastError } from '$lib/components/ui/Toast.svelte';
 	import { ArrowLeft, Save, Camera, Upload, X, Trash2, Image as ImageIcon } from 'lucide-svelte';
 
-	let { data, form } = $props();
+	let { form } = $props();
 
 	let isSubmitting = $state(false);
-	let imagePreview = $state<string | null>(data.asset?.image || null);
+	let imagePreview = $state<string | null>(page.data.asset?.image || null);
 	let imageInput: HTMLInputElement;
 
 	function handleImageChange(e: Event) {
@@ -61,7 +62,7 @@
 		</a>
 		<div>
 			<h1 class="text-2xl font-bold">✏️ Edit Aset</h1>
-			<p class="text-base-content/60">Perbarui data inventaris: {data.asset?.code}</p>
+			<p class="text-base-content/60">Perbarui data inventaris: {page.data.asset?.code}</p>
 		</div>
 	</div>
 
@@ -85,7 +86,7 @@
 
 			<!-- Image Upload -->
 			<div class="form-control">
-				<label class="label"><span class="label-text">Foto Aset</span></label>
+				<label for="image" class="label"><span class="label-text">Foto Aset</span></label>
 				<div class="flex flex-col sm:flex-row items-start gap-4">
 					<div class="avatar rounded-xl {imagePreview ? '' : 'placeholder'}">
 						{#if imagePreview}
@@ -142,47 +143,47 @@
 					</h3>
 
 					<div class="form-control">
-						<label class="label"
+						<label for="name" class="label"
 							><span class="label-text">Nama Aset <span class="text-error">*</span></span></label
 						>
 						<input
 							type="text"
 							name="name"
 							class="input input-bordered w-full"
-							value={data.asset?.name || ''}
+							value={page.data.asset?.name || ''}
 							required
 						/>
 					</div>
 
 					<div class="form-control">
-						<label class="label"><span class="label-text">Kode Aset</span></label>
+						<label for="code" class="label"><span class="label-text">Kode Aset</span></label>
 						<input
 							type="text"
 							name="code"
 							class="input input-bordered w-full"
-							value={data.asset?.code || ''}
+							value={page.data.asset?.code || ''}
 						/>
 					</div>
 
 					<div class="form-control">
-						<label class="label"
+						<label for="category" class="label"
 							><span class="label-text">Kategori <span class="text-error">*</span></span></label
 						>
 						<select name="category" class="select select-bordered w-full" required>
 							<option value="" disabled>Pilih Kategori</option>
-							<option value="Elektronik" selected={data.asset?.category === 'Elektronik'}
+							<option value="Elektronik" selected={page.data.asset?.category === 'Elektronik'}
 								>Elektronik</option
 							>
-							<option value="Furniture" selected={data.asset?.category === 'Furniture'}
+							<option value="Furniture" selected={page.data.asset?.category === 'Furniture'}
 								>Furniture</option
 							>
-							<option value="Perlengkapan" selected={data.asset?.category === 'Perlengkapan'}
+							<option value="Perlengkapan" selected={page.data.asset?.category === 'Perlengkapan'}
 								>Perlengkapan</option
 							>
-							<option value="Kendaraan" selected={data.asset?.category === 'Kendaraan'}
+							<option value="Kendaraan" selected={page.data.asset?.category === 'Kendaraan'}
 								>Kendaraan</option
 							>
-							<option value="Lainnya" selected={data.asset?.category === 'Lainnya'}>Lainnya</option>
+							<option value="Lainnya" selected={page.data.asset?.category === 'Lainnya'}>Lainnya</option>
 						</select>
 					</div>
 				</div>
@@ -195,56 +196,56 @@
 
 					<div class="grid grid-cols-2 gap-4">
 						<div class="form-control">
-							<label class="label"
+							<label for="quantity" class="label"
 								><span class="label-text">Jumlah <span class="text-error">*</span></span></label
 							>
 							<input
 								type="number"
 								name="quantity"
 								class="input input-bordered w-full"
-								value={data.asset?.quantity || 1}
+								value={page.data.asset?.quantity || 1}
 								min="1"
 								required
 							/>
 						</div>
 						<div class="form-control">
-							<label class="label"
+							<label for="condition" class="label"
 								><span class="label-text">Kondisi <span class="text-error">*</span></span></label
 							>
 							<select name="condition" class="select select-bordered w-full" required>
-								<option value="good" selected={data.asset?.condition === 'good'}>Baik</option>
-								<option value="maintenance" selected={data.asset?.condition === 'maintenance'}
+								<option value="good" selected={page.data.asset?.condition === 'good'}>Baik</option>
+								<option value="maintenance" selected={page.data.asset?.condition === 'maintenance'}
 									>Perlu Perbaikan</option
 								>
-								<option value="damaged" selected={data.asset?.condition === 'damaged'}>Rusak</option
+								<option value="damaged" selected={page.data.asset?.condition === 'damaged'}>Rusak</option
 								>
-								<option value="lost" selected={data.asset?.condition === 'lost'}>Hilang</option>
+								<option value="lost" selected={page.data.asset?.condition === 'lost'}>Hilang</option>
 							</select>
 						</div>
 					</div>
 
 					<div class="form-control">
-						<label class="label"><span class="label-text">Lokasi Penyimpanan</span></label>
+						<label for="location" class="label"><span class="label-text">Lokasi Penyimpanan</span></label>
 						<input
 							type="text"
 							name="location"
 							class="input input-bordered w-full"
-							value={data.asset?.location || ''}
+							value={page.data.asset?.location || ''}
 						/>
 					</div>
 
 					<div class="form-control">
-						<label class="label"><span class="label-text">Tanggal Pembelian</span></label>
+						<label for="purchaseDate" class="label"><span class="label-text">Tanggal Pembelian</span></label>
 						<input
 							type="date"
 							name="purchaseDate"
 							class="input input-bordered w-full"
-							value={data.asset?.purchaseDate || ''}
+							value={page.data.asset?.purchaseDate || ''}
 						/>
 					</div>
 
 					<div class="form-control">
-						<label class="label"><span class="label-text">Harga Per Unit</span></label>
+						<label for="price" class="label"><span class="label-text">Harga Per Unit</span></label>
 						<div class="input-group">
 							<span
 								class="bg-base-200 px-3 py-3 border border-r-0 border-base-300 rounded-l-lg text-sm"
@@ -254,7 +255,7 @@
 								type="number"
 								name="price"
 								class="input input-bordered w-full pl-2"
-								value={data.asset?.price || ''}
+								value={page.data.asset?.price || ''}
 							/>
 						</div>
 					</div>
@@ -262,11 +263,11 @@
 			</div>
 
 			<div class="form-control">
-				<label class="label"><span class="label-text">Deskripsi / Catatan</span></label>
+				<label for="description" class="label"><span class="label-text">Deskripsi / Catatan</span></label>
 				<textarea
 					name="description"
 					class="textarea textarea-bordered h-24"
-					value={data.asset?.description || ''}
+					value={page.data.asset?.description || ''}
 				></textarea>
 			</div>
 

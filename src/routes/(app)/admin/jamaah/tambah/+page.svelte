@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
-	import { Toast, success as toastSuccess, error as toastError } from '$lib/components/ui';
+	import Toast, { success as toastSuccess, error as toastError } from '$lib/components/ui/Toast.svelte';
 	import { ArrowLeft, Save, Camera, Upload, X } from 'lucide-svelte';
 
 	let { form } = $props();
@@ -74,7 +74,7 @@
 
 			<!-- Avatar Upload -->
 			<div class="form-control">
-				<label class="label"><span class="label-text">Foto Profil</span></label>
+				<label for="avatar" class="label"><span class="label-text">Foto Profil</span></label>
 				<div class="flex items-center gap-4">
 					<div class="avatar {avatarPreview ? '' : 'placeholder'}">
 						{#if avatarPreview}
@@ -121,7 +121,7 @@
 
 			<!-- Name -->
 			<div class="form-control">
-				<label class="label"
+				<label for="name" class="label"
 					><span class="label-text">Nama Lengkap <span class="text-error">*</span></span></label
 				>
 				<input
@@ -136,7 +136,7 @@
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<!-- NIK -->
 				<div class="form-control">
-					<label class="label"><span class="label-text">NIK</span></label>
+					<label for="nik" class="label"><span class="label-text">NIK</span></label>
 					<input
 						type="text"
 						name="nik"
@@ -148,7 +148,7 @@
 
 				<!-- Gender -->
 				<div class="form-control">
-					<label class="label"
+					<label for="gender" class="label"
 						><span class="label-text">Jenis Kelamin <span class="text-error">*</span></span></label
 					>
 					<select name="gender" class="select select-bordered w-full" required>
@@ -162,13 +162,13 @@
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<!-- Birth Date -->
 				<div class="form-control">
-					<label class="label"><span class="label-text">Tanggal Lahir</span></label>
+					<label for="birthDate" class="label"><span class="label-text">Tanggal Lahir</span></label>
 					<input type="date" name="birthDate" class="input input-bordered w-full" />
 				</div>
 
 				<!-- Phone -->
 				<div class="form-control">
-					<label class="label"><span class="label-text">No. Telepon</span></label>
+					<label for="phone" class="label"><span class="label-text">No. Telepon</span></label>
 					<input
 						type="tel"
 						name="phone"
@@ -180,7 +180,7 @@
 
 			<!-- Email -->
 			<div class="form-control">
-				<label class="label"><span class="label-text">Email</span></label>
+				<label for="email" class="label"><span class="label-text">Email</span></label>
 				<input
 					type="email"
 					name="email"
@@ -191,7 +191,7 @@
 
 			<!-- Address -->
 			<div class="form-control">
-				<label class="label"><span class="label-text">Alamat</span></label>
+				<label for="address" class="label"><span class="label-text">Alamat</span></label>
 				<textarea
 					name="address"
 					class="textarea textarea-bordered w-full"
@@ -202,7 +202,7 @@
 
 			<!-- Status -->
 			<div class="form-control">
-				<label class="label"><span class="label-text">Status</span></label>
+				<label for="status" class="label"><span class="label-text">Status</span></label>
 				<select name="status" class="select select-bordered w-full">
 					<option value="active" selected>Aktif</option>
 					<option value="inactive">Tidak Aktif</option>

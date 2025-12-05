@@ -335,7 +335,7 @@
 				{/if}
 				<div class="space-y-4">
 					<div class="form-control">
-						<label class="label"><span class="label-text">Judul</span></label>
+						<label for="title" class="label"><span class="label-text">Judul</span></label>
 						<input
 							type="text"
 							name="title"
@@ -397,7 +397,7 @@
 				{/if}
 				<div class="space-y-4">
 					<div class="form-control">
-						<label class="label"><span class="label-text">Tanggal</span></label>
+						<label for="date" class="label"><span class="label-text">Tanggal</span></label>
 						<input
 							type="date"
 							name="date"
@@ -408,7 +408,7 @@
 					</div>
 					<div class="grid grid-cols-2 gap-4">
 						<div class="form-control">
-							<label class="label"><span class="label-text">Khatib</span></label>
+							<label for="khatib" class="label"><span class="label-text">Khatib</span></label>
 							<input
 								type="text"
 								name="khatib"
@@ -418,7 +418,7 @@
 							/>
 						</div>
 						<div class="form-control">
-							<label class="label"><span class="label-text">Imam</span></label>
+							<label for="imam" class="label"><span class="label-text">Imam</span></label>
 							<input
 								type="text"
 								name="imam"
@@ -429,7 +429,7 @@
 						</div>
 					</div>
 					<div class="form-control">
-						<label class="label"><span class="label-text">Muadzin</span></label>
+						<label for="muadzin" class="label"><span class="label-text">Muadzin</span></label>
 						<input
 							type="text"
 							name="muadzin"
@@ -438,7 +438,7 @@
 						/>
 					</div>
 					<div class="form-control">
-						<label class="label"><span class="label-text">Tema Khutbah</span></label>
+						<label for="theme" class="label"><span class="label-text">Tema Khutbah</span></label>
 						<input
 							type="text"
 							name="theme"

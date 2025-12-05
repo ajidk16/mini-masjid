@@ -17,7 +17,7 @@
 	let isLoading = $state(true);
 
 	// Merge default options with provided options
-	const defaultOptions: ApexOptions = {
+	const getDefaultOptions = (): ApexOptions => ({
 		chart: {
 			type,
 			height,
@@ -53,7 +53,7 @@
 				}
 			}
 		]
-	};
+	});
 
 	onMount(async () => {
 		// Dynamic import for code splitting
@@ -61,11 +61,12 @@
 
 		// Detect dark mode
 		const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+		const defaultOpts = getDefaultOptions();
 		const mergedOptions: ApexOptions = {
-			...defaultOptions,
+			...defaultOpts,
 			...options,
 			chart: {
-				...defaultOptions.chart,
+				...defaultOpts.chart,
 				...options.chart
 			},
 			theme: {

@@ -84,7 +84,7 @@
 							{/if}
 						</button>
 					</div>
-					<label class="label">
+					<label for="new" class="label">
 						<span class="label-text-alt">Must be at least 8 characters long.</span>
 					</label>
 				</div>

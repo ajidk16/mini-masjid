@@ -17,28 +17,28 @@
 				</p>
 				<div class="flex gap-4">
 					<a
-						href="#"
+						href="#facebook"
 						class="btn btn-ghost btn-circle btn-sm hover:text-primary"
 						aria-label="Facebook"
 					>
 						<Facebook class="h-5 w-5" />
 					</a>
 					<a
-						href="#"
+						href="#instagram"
 						class="btn btn-ghost btn-circle btn-sm hover:text-primary"
 						aria-label="Instagram"
 					>
 						<Instagram class="h-5 w-5" />
 					</a>
 					<a
-						href="#"
+						href="#twitter"
 						class="btn btn-ghost btn-circle btn-sm hover:text-primary"
 						aria-label="Twitter"
 					>
 						<Twitter class="h-5 w-5" />
 					</a>
 					<a
-						href="#"
+						href="#youtube"
 						class="btn btn-ghost btn-circle btn-sm hover:text-primary"
 						aria-label="Youtube"
 					>

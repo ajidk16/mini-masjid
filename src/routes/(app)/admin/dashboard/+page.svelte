@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { StatsCard, Chart, QuickActionCard } from '$lib/components/ui';
 	import {
 		Wallet,
@@ -10,29 +11,27 @@
 		ArrowRight
 	} from 'lucide-svelte';
 
-	// Props from server load
-	let { data } = $props();
 
 	// Derived user info (avoid type issues with union types)
-	const userName = $derived((data.user as any)?.name || 'Pengguna');
-	const userRole = $derived((data.user as any)?.role || 'jamaah');
+	const userName = $derived((page.data.user as any)?.name || 'Pengguna');
+	const userRole = $derived((page.data.user as any)?.role || 'jamaah');
 
 	// Chart data for cashflow
 	const cashflowSeries = $derived([
 		{
 			name: 'Pemasukan',
-			data: data.cashflowData?.income || [0, 0, 0, 0, 0, 0]
+			data: page.data.cashflowData?.income || [0, 0, 0, 0, 0, 0]
 		},
 		{
 			name: 'Pengeluaran',
-			data: data.cashflowData?.expense || [0, 0, 0, 0, 0, 0]
+			data: page.data.cashflowData?.expense || [0, 0, 0, 0, 0, 0]
 		}
 	]);
 
 	const cashflowOptions = {
 		colors: ['#10b981', '#ef4444'],
 		xaxis: {
-			categories: data.cashflowData?.months || ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun']
+			categories: page.data.cashflowData?.months || ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun']
 		},
 		yaxis: {
 			labels: {
@@ -49,12 +48,13 @@
 
 	// Donut chart for income categories
 	const categoryData = $derived({
-		series: data.categoryData?.values || [40, 25, 20, 15],
-		labels: data.categoryData?.labels || ['Infaq', 'Zakat', 'Sadaqah', 'Wakaf']
+		series: page.data.categoryData?.values || [40, 25, 20, 15],
+		labels: page.data.categoryData?.labels || ['Infaq', 'Zakat', 'Sadaqah', 'Wakaf']
 	});
 
 	const categoryOptions = {
 		colors: ['#10b981', '#f59e0b', '#3b82f6', '#8b5cf6'],
+		// svelte-ignore state_referenced_locally
 		labels: categoryData.labels,
 		legend: {
 			position: 'bottom' as const
@@ -68,7 +68,7 @@
 						total: {
 							show: true,
 							label: 'Total',
-							formatter: () => `Rp ${((data.stats?.totalDonation || 0) / 1000000).toFixed(1)}jt`
+							formatter: () => `Rp ${((page.data.stats?.totalDonation || 0) / 1000000).toFixed(1)}jt`
 						}
 					}
 				}
@@ -95,7 +95,7 @@
 			title: 'Data Jamaah',
 			description: 'Kelola anggota masjid',
 			icon: Users,
-			badge: data.stats?.newMembers || 0,
+			badge: page.data.stats?.newMembers || 0,
 			badgeType: 'success' as const
 		},
 		{
@@ -103,7 +103,7 @@
 			title: 'Donasi Online',
 			description: 'Lihat donasi masuk',
 			icon: Heart,
-			badge: data.stats?.pendingDonations || 0,
+			badge: page.data.stats?.pendingDonations || 0,
 			badgeType: 'warning' as const
 		}
 	];
@@ -158,34 +158,34 @@
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 		<StatsCard
 			title="Saldo Kas"
-			value={formatCurrency(data.stats?.balance || 0)}
+			value={formatCurrency(page.data.stats?.balance || 0)}
 			icon="💰"
-			trend={data.stats?.balanceTrend || 'neutral'}
-			trendValue={data.stats?.balanceTrendValue || '0%'}
+			trend={page.data.stats?.balanceTrend || 'neutral'}
+			trendValue={page.data.stats?.balanceTrendValue || '0%'}
 			description="dari bulan lalu"
 		/>
 		<StatsCard
 			title="Kegiatan Bulan Ini"
-			value={data.stats?.eventsThisMonth || 0}
+			value={page.data.stats?.eventsThisMonth || 0}
 			icon="📅"
 			trend="up"
-			trendValue={`+${data.stats?.newEvents || 0}`}
+			trendValue={`+${page.data.stats?.newEvents || 0}`}
 			description="kegiatan baru"
 		/>
 		<StatsCard
 			title="Total Jamaah"
-			value={data.stats?.totalMembers || 0}
+			value={page.data.stats?.totalMembers || 0}
 			icon="👥"
 			trend="up"
-			trendValue={`+${data.stats?.newMembers || 0}`}
+			trendValue={`+${page.data.stats?.newMembers || 0}`}
 			description="anggota baru"
 		/>
 		<StatsCard
 			title="Donasi Bulan Ini"
-			value={formatCurrency(data.stats?.donationThisMonth || 0)}
+			value={formatCurrency(page.data.stats?.donationThisMonth || 0)}
 			icon="🤲"
-			trend={data.stats?.donationTrend || 'up'}
-			trendValue={data.stats?.donationTrendValue || '+15%'}
+			trend={page.data.stats?.donationTrend || 'up'}
+			trendValue={page.data.stats?.donationTrendValue || '+15%'}
 			description="dari bulan lalu"
 		/>
 	</div>
@@ -234,8 +234,8 @@
 							</a>
 						</div>
 						<div class="space-y-3">
-							{#if data.upcomingEvents && data.upcomingEvents.length > 0}
-								{#each data.upcomingEvents.slice(0, 4) as event}
+							{#if page.data.upcomingEvents && page.data.upcomingEvents.length > 0}
+								{#each page.data.upcomingEvents.slice(0, 4) as event}
 									<div
 										class="flex items-center gap-3 p-2 rounded-lg hover:bg-base-200/50 transition-colors"
 									>
@@ -291,8 +291,8 @@
 						<a href="/notifications" class="btn btn-ghost btn-xs">Semua</a>
 					</div>
 					<div class="space-y-3">
-						{#if data.recentActivity && data.recentActivity.length > 0}
-							{#each data.recentActivity.slice(0, 5) as activity}
+						{#if page.data.recentActivity && page.data.recentActivity.length > 0}
+							{#each page.data.recentActivity.slice(0, 5) as activity}
 								<div class="flex items-start gap-3 p-2 border-l-2 border-primary/30 pl-4">
 									<div class="flex-1">
 										<p class="text-sm">{activity.message}</p>

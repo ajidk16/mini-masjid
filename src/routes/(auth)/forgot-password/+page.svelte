@@ -42,7 +42,6 @@
 							placeholder="name@example.com"
 							class="input input-bordered w-full"
 							required
-							autofocus
 						/>
 					</div>
 
