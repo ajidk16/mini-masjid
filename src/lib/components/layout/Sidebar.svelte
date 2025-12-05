@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { onMount } from 'svelte';
 	import {
 		LayoutDashboard,
 		Wallet,
@@ -74,14 +75,14 @@
 		return expandedMenus.has(label);
 	}
 
-	// Auto-expand active parent menu on load
-	$effect(() => {
+	// Auto-expand active parent menu on mount (one-time only)
+	onMount(() => {
 		menuItems.forEach((item) => {
 			if (item.children && isParentActive(item)) {
 				expandedMenus.add(item.label);
-				expandedMenus = new Set(expandedMenus);
 			}
 		});
+		expandedMenus = new Set(expandedMenus);
 	});
 </script>
 

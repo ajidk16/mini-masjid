@@ -28,8 +28,8 @@
   let doubled = $derived(count * 2);
   let total = $derived.by(() => items.reduce((a, b) => a + b.length, 0));
   
-  // Effects
-  $effect(() => {
+  // onMount
+  onMount(() => {
     console.log('count changed:', count);
   });
   
