@@ -164,9 +164,13 @@
 									{diff >= 0 ? '+' : ''}{formatCurrency(diff)}
 								</td>
 								<td class="text-center">
-									<button class="btn btn-ghost btn-xs" title="Lihat Detail">
+									<a
+										href="/keuangan/laporan/{selectedYear}-{String(i + 1).padStart(2, '0')}"
+										class="btn btn-ghost btn-xs"
+										title="Lihat Detail"
+									>
 										<FileText class="w-4 h-4" />
-									</button>
+									</a>
 								</td>
 							</tr>
 						{/each}
