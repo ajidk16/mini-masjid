@@ -29,7 +29,7 @@
 	<input
 		{type}
 		bind:value
-		class="input input-bordered w-full {error ? 'input-error' : ''} {className}"
+		class="input input-bordered w-full w-full {error ? 'input-error' : ''} {className}"
 		{...restProps}
 	/>
 

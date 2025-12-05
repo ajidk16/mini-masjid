@@ -60,17 +60,55 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
+	create: async ({ request }) => {
+		const formData = await request.formData();
+		const date = formData.get('date') as string;
+		const category = formData.get('category') as string;
+		const amountRaw = formData.get('amountRaw') as string;
+		const description = formData.get('description') as string;
+		const notes = formData.get('notes') as string;
+
+		if (!date || !category || !amountRaw || !description) {
+			return fail(400, { error: 'Semua field wajib harus diisi' });
+		}
+
+		const amount = Number(amountRaw);
+		if (isNaN(amount) || amount <= 0) {
+			return fail(400, { error: 'Jumlah harus lebih dari 0' });
+		}
+
+		console.log('Creating expense:', { date, category, amount, description, notes });
+		return { success: true, message: 'Pengeluaran berhasil ditambahkan' };
+	},
+
+	update: async ({ request }) => {
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const date = formData.get('date') as string;
+		const category = formData.get('category') as string;
+		const amountRaw = formData.get('amountRaw') as string;
+		const description = formData.get('description') as string;
+		const notes = formData.get('notes') as string;
+
+		if (!id || !date || !category || !amountRaw || !description) {
+			return fail(400, { error: 'Semua field wajib harus diisi' });
+		}
+
+		const amount = Number(amountRaw);
+		if (isNaN(amount) || amount <= 0) {
+			return fail(400, { error: 'Jumlah harus lebih dari 0' });
+		}
+
+		console.log('Updating expense:', { id, date, category, amount, description, notes });
+		return { success: true, message: 'Pengeluaran berhasil diperbarui' };
+	},
+
 	delete: async ({ request }) => {
 		const formData = await request.formData();
 		const id = formData.get('id') as string;
+		if (!id) return fail(400, { error: 'ID tidak ditemukan' });
 
-		if (!id) {
-			return fail(400, { error: 'ID tidak ditemukan' });
-		}
-
-		// TODO: Delete from database
 		console.log('Deleting expense:', id);
-
 		return { success: true, message: 'Transaksi berhasil dihapus' };
 	}
 };

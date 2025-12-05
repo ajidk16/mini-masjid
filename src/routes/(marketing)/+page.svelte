@@ -433,7 +433,7 @@
 							<input
 								id="donor-name"
 								type="text"
-								class="input input-bordered"
+								class="input input-bordered w-full"
 								placeholder="Masukkan nama"
 								bind:value={donorName}
 							/>
@@ -446,7 +446,7 @@
 							<input
 								id="donor-email"
 								type="email"
-								class="input input-bordered"
+								class="input input-bordered w-full"
 								placeholder="email@contoh.com"
 								bind:value={donorEmail}
 							/>
@@ -459,7 +459,7 @@
 							<input
 								id="donor-phone"
 								type="tel"
-								class="input input-bordered"
+								class="input input-bordered w-full"
 								placeholder="08xx xxxx xxxx"
 								bind:value={donorPhone}
 							/>
@@ -472,7 +472,7 @@
 							<input
 								id="donor-amount"
 								type="number"
-								class="input input-bordered"
+								class="input input-bordered w-full"
 								placeholder="50000"
 								min="10000"
 								bind:value={donorAmount}
@@ -485,7 +485,7 @@
 							</label>
 							<textarea
 								id="donor-message"
-								class="textarea textarea-bordered"
+								class="textarea textarea-bordered w-full"
 								rows="2"
 								placeholder="Semoga menjadi amal jariyah..."
 								bind:value={donorMessage}

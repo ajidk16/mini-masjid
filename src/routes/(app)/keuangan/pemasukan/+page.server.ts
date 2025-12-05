@@ -71,6 +71,55 @@ export const load: PageServerLoad = async ({ url }) => {
 };
 
 export const actions: Actions = {
+	create: async ({ request }) => {
+		const formData = await request.formData();
+
+		const date = formData.get('date') as string;
+		const category = formData.get('category') as string;
+		const amountRaw = formData.get('amountRaw') as string;
+		const description = formData.get('description') as string;
+		const notes = formData.get('notes') as string;
+
+		if (!date || !category || !amountRaw || !description) {
+			return fail(400, { error: 'Semua field wajib harus diisi' });
+		}
+
+		const amount = Number(amountRaw);
+		if (isNaN(amount) || amount <= 0) {
+			return fail(400, { error: 'Jumlah harus lebih dari 0' });
+		}
+
+		// TODO: Save to database
+		console.log('Creating income:', { date, category, amount, description, notes });
+
+		return { success: true, message: 'Pemasukan berhasil ditambahkan' };
+	},
+
+	update: async ({ request }) => {
+		const formData = await request.formData();
+
+		const id = formData.get('id') as string;
+		const date = formData.get('date') as string;
+		const category = formData.get('category') as string;
+		const amountRaw = formData.get('amountRaw') as string;
+		const description = formData.get('description') as string;
+		const notes = formData.get('notes') as string;
+
+		if (!id || !date || !category || !amountRaw || !description) {
+			return fail(400, { error: 'Semua field wajib harus diisi' });
+		}
+
+		const amount = Number(amountRaw);
+		if (isNaN(amount) || amount <= 0) {
+			return fail(400, { error: 'Jumlah harus lebih dari 0' });
+		}
+
+		// TODO: Update in database
+		console.log('Updating income:', { id, date, category, amount, description, notes });
+
+		return { success: true, message: 'Pemasukan berhasil diperbarui' };
+	},
+
 	delete: async ({ request }) => {
 		const formData = await request.formData();
 		const id = formData.get('id') as string;

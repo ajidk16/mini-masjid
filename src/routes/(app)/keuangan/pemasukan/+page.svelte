@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { Badge, Toast, success as toastSuccess, error as toastError } from '$lib/components/ui';
-	import { Plus, Download, Eye, SquarePen, Trash2, X } from 'lucide-svelte';
+	import { Plus, Download, Eye, SquarePen, Trash2, X, Save } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let { data, form } = $props();
@@ -13,11 +13,21 @@
 	// Modal states
 	let showDetailModal = $state(false);
 	let showDeleteModal = $state(false);
+	let showFormModal = $state(false);
+	let isEditMode = $state(false);
 	let selectedTransaction = $state<(typeof data.transactions)[0] | null>(null);
-	let isDeleting = $state(false);
-	let lastFormId = $state<string | null>(null);
+	let isSubmitting = $state(false);
 
-	// Show toast on form result (only once per form submission)
+	// Form fields
+	let formDate = $state('');
+	let formCategory = $state('');
+	let formAmount = $state('');
+	let formAmountFormatted = $state('');
+	let formDescription = $state('');
+	let formNotes = $state('');
+
+	// Toast on form result
+	let lastFormId = $state<string | null>(null);
 	onMount(() => {
 		const formId = form?.success ? 'success' : form?.error ? 'error' : null;
 		if (formId && formId !== lastFormId) {
@@ -37,6 +47,14 @@
 			currency: 'IDR',
 			minimumFractionDigits: 0
 		}).format(value);
+	}
+
+	function formatAmountInput(e: Event) {
+		const input = e.target as HTMLInputElement;
+		const value = input.value.replace(/\D/g, '');
+		formAmount = value;
+		formAmountFormatted = value ? new Intl.NumberFormat('id-ID').format(Number(value)) : '';
+		input.value = formAmountFormatted;
 	}
 
 	// Filtered transactions
@@ -60,22 +78,65 @@
 
 	const totalAmount = $derived(filteredTransactions().reduce((sum, tx) => sum + tx.amount, 0));
 
-	// Open detail modal
+	// Open form modal for add
+	function openAddModal() {
+		isEditMode = false;
+		selectedTransaction = null;
+		formDate = new Date().toISOString().split('T')[0];
+		formCategory = '';
+		formAmount = '';
+		formAmountFormatted = '';
+		formDescription = '';
+		formNotes = '';
+		showFormModal = true;
+	}
+
+	// Open form modal for edit
+	function openEditModal(tx: (typeof data.transactions)[0]) {
+		isEditMode = true;
+		selectedTransaction = tx;
+		formDate = tx.date.split('T')[0];
+		formCategory = tx.category;
+		formAmount = tx.amount.toString();
+		formAmountFormatted = new Intl.NumberFormat('id-ID').format(tx.amount);
+		formDescription = tx.description;
+		formNotes = tx.notes || '';
+		showFormModal = true;
+	}
+
+	function closeFormModal() {
+		showFormModal = false;
+		selectedTransaction = null;
+		isSubmitting = false;
+	}
+
 	function openDetail(tx: (typeof data.transactions)[0]) {
 		selectedTransaction = tx;
 		showDetailModal = true;
 	}
 
-	// Open delete modal
 	function openDelete(tx: (typeof data.transactions)[0]) {
 		selectedTransaction = tx;
 		showDeleteModal = true;
 	}
 
-	// Handle delete
+	function handleFormSubmit() {
+		return async ({ result, update }: any) => {
+			isSubmitting = false;
+			if (result.type === 'success') {
+				toastSuccess(isEditMode ? 'Berhasil diperbarui' : 'Berhasil ditambahkan');
+				closeFormModal();
+				await update();
+			} else if (result.type === 'failure') {
+				toastError(result.data?.error || 'Gagal menyimpan');
+			} else {
+				await update();
+			}
+		};
+	}
+
 	function handleDelete() {
 		return async ({ result, update }: any) => {
-			isDeleting = false;
 			showDeleteModal = false;
 			selectedTransaction = null;
 
@@ -93,7 +154,6 @@
 	<title>Pemasukan | Keuangan | MiniMasjid</title>
 </svelte:head>
 
-<!-- Toast Container -->
 <Toast />
 
 <div class="space-y-6">
@@ -103,10 +163,10 @@
 			<h1 class="text-2xl font-bold">💰 Pemasukan</h1>
 			<p class="text-base-content/60 mt-1">Kelola data pemasukan masjid</p>
 		</div>
-		<a href="/keuangan/pemasukan/tambah" class="btn btn-primary">
+		<button class="btn btn-primary" onclick={openAddModal}>
 			<Plus class="w-4 h-4" />
 			Tambah Pemasukan
-		</a>
+		</button>
 	</div>
 
 	<!-- Stats Summary -->
@@ -138,7 +198,7 @@
 			<input
 				type="text"
 				placeholder="Cari transaksi..."
-				class="input input-bordered input-sm w-full"
+				class="input input-bordered w-full input-sm w-full"
 				bind:value={searchQuery}
 			/>
 		</div>
@@ -156,7 +216,6 @@
 			<ul class="dropdown-content menu bg-base-100 rounded-box shadow-lg z-10 w-40 p-2">
 				<li><button>Excel (.xlsx)</button></li>
 				<li><button>PDF</button></li>
-				<li><button>CSV</button></li>
 			</ul>
 		</div>
 	</div>
@@ -210,13 +269,13 @@
 										>
 											<Eye class="w-4 h-4" />
 										</button>
-										<a
-											href="/keuangan/pemasukan/{tx.id}/edit"
+										<button
 											class="btn btn-ghost btn-xs btn-square"
 											title="Edit"
+											onclick={() => openEditModal(tx)}
 										>
 											<SquarePen class="w-4 h-4" />
-										</a>
+										</button>
 										<button
 											class="btn btn-ghost btn-xs btn-square text-error"
 											title="Hapus"
@@ -253,24 +312,117 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- Pagination -->
-	{#if data.totalPages > 1}
-		<div class="flex justify-center">
-			<div class="join">
-				<button class="join-item btn btn-sm" disabled={data.currentPage === 1}>«</button>
-				{#each Array(data.totalPages) as _, i}
-					<button class="join-item btn btn-sm" class:btn-active={data.currentPage === i + 1}>
-						{i + 1}
-					</button>
-				{/each}
-				<button class="join-item btn btn-sm" disabled={data.currentPage === data.totalPages}
-					>»</button
-				>
-			</div>
-		</div>
-	{/if}
 </div>
+
+<!-- Add/Edit Modal -->
+{#if showFormModal}
+	<dialog class="modal modal-open">
+		<div class="modal-box max-w-lg">
+			<button
+				class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+				onclick={closeFormModal}
+			>
+				<X class="w-4 h-4" />
+			</button>
+
+			<h3 class="font-bold text-lg mb-4">
+				{isEditMode ? '✏️ Edit Pemasukan' : '➕ Tambah Pemasukan'}
+			</h3>
+
+			<form
+				method="POST"
+				action={isEditMode ? '?/update' : '?/create'}
+				use:enhance={() => {
+					isSubmitting = true;
+					return handleFormSubmit();
+				}}
+				class="space-y-4"
+			>
+				{#if isEditMode && selectedTransaction}
+					<input type="hidden" name="id" value={selectedTransaction.id} />
+				{/if}
+
+				<div class="grid grid-cols-2 gap-4">
+					<div class="form-control">
+						<label class="label"><span class="label-text">Tanggal *</span></label>
+						<input
+							type="date"
+							name="date"
+							class="input input-bordered w-full"
+							value={formDate}
+							required
+						/>
+					</div>
+					<div class="form-control">
+						<label class="label"><span class="label-text">Kategori *</span></label>
+						<select name="category" class="select select-bordered" required>
+							<option value="" disabled selected={!formCategory}>Pilih</option>
+							<option value="Infaq" selected={formCategory === 'Infaq'}>Infaq</option>
+							<option value="Zakat" selected={formCategory === 'Zakat'}>Zakat</option>
+							<option value="Sadaqah" selected={formCategory === 'Sadaqah'}>Sadaqah</option>
+							<option value="Wakaf" selected={formCategory === 'Wakaf'}>Wakaf</option>
+							<option value="Lainnya" selected={formCategory === 'Lainnya'}>Lainnya</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-control">
+					<label class="label"><span class="label-text">Jumlah *</span></label>
+					<label class="input input-bordered w-full flex items-center gap-2">
+						<span class="text-base-content/60">Rp</span>
+						<input
+							type="text"
+							class="grow"
+							placeholder="0"
+							required
+							value={formAmountFormatted}
+							oninput={formatAmountInput}
+						/>
+					</label>
+					<input type="hidden" name="amountRaw" value={formAmount} />
+				</div>
+
+				<div class="form-control">
+					<label class="label"><span class="label-text">Keterangan *</span></label>
+					<input
+						type="text"
+						name="description"
+						class="input input-bordered w-full"
+						placeholder="Contoh: Infaq Jumat Minggu I"
+						value={formDescription}
+						required
+					/>
+				</div>
+
+				<div class="form-control">
+					<label class="label"><span class="label-text">Catatan</span></label>
+					<textarea
+						name="notes"
+						class="textarea textarea-bordered w-full"
+						rows="2"
+						placeholder="Catatan tambahan..."
+						value={formNotes}
+					></textarea>
+				</div>
+
+				<div class="modal-action">
+					<button type="button" class="btn btn-ghost" onclick={closeFormModal}>Batal</button>
+					<button type="submit" class="btn btn-primary" disabled={isSubmitting}>
+						{#if isSubmitting}
+							<span class="loading loading-spinner loading-sm"></span>
+						{:else}
+							<Save class="w-4 h-4" />
+						{/if}
+						Simpan
+					</button>
+				</div>
+			</form>
+		</div>
+		<form method="dialog" class="modal-backdrop">
+			<button onclick={closeFormModal}>close</button>
+		</form>
+	</dialog>
+{/if}
 
 <!-- Detail Modal -->
 {#if showDetailModal && selectedTransaction}
@@ -328,10 +480,16 @@
 			</div>
 
 			<div class="modal-action">
-				<a href="/keuangan/pemasukan/{selectedTransaction.id}/edit" class="btn btn-primary btn-sm">
+				<button
+					class="btn btn-primary btn-sm"
+					onclick={() => {
+						showDetailModal = false;
+						openEditModal(selectedTransaction!);
+					}}
+				>
 					<SquarePen class="w-4 h-4" />
 					Edit
-				</a>
+				</button>
 				<button
 					class="btn btn-ghost btn-sm"
 					onclick={() => {
@@ -369,8 +527,6 @@
 				</p>
 			</div>
 
-			<p class="text-sm text-base-content/60">Tindakan ini tidak dapat dibatalkan.</p>
-
 			<div class="modal-action">
 				<button
 					class="btn btn-ghost"
@@ -381,21 +537,10 @@
 				>
 					Batal
 				</button>
-				<form
-					method="POST"
-					action="?/delete"
-					use:enhance={() => {
-						isDeleting = true;
-						return handleDelete();
-					}}
-				>
+				<form method="POST" action="?/delete" use:enhance={() => handleDelete()}>
 					<input type="hidden" name="id" value={selectedTransaction.id} />
-					<button type="submit" class="btn btn-error" disabled={isDeleting}>
-						{#if isDeleting}
-							<span class="loading loading-spinner loading-sm"></span>
-						{:else}
-							<Trash2 class="w-4 h-4" />
-						{/if}
+					<button type="submit" class="btn btn-error">
+						<Trash2 class="w-4 h-4" />
 						Hapus
 					</button>
 				</form>
