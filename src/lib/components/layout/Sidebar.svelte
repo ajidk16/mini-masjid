@@ -42,7 +42,6 @@
 		{ href: '/donasi', label: 'Donasi', icon: Heart },
 		{ href: '/inventaris', label: 'Inventaris', icon: Package },
 		{ href: '/pengumuman', label: 'Pengumuman', icon: Megaphone },
-		{ href: '/settings', label: 'Pengaturan', icon: Settings }
 	];
 
 	// Track expanded submenus

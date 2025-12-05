@@ -147,7 +147,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="/settings" class="flex items-center gap-3">
+						<a href="/settings/masjid" class="flex items-center gap-3">
 							<Settings class="w-4 h-4" />
 							<span>Pengaturan</span>
 						</a>
