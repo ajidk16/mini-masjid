@@ -62,7 +62,7 @@
 </script>
 
 <svelte:head>
-	<title>Donasi Online | MiniMasjid</title>
+	<title>Donasi Online | TadBeer</title>
 </svelte:head>
 
 <div class="container mx-auto px-4 py-8 pb-24 md:pb-8">

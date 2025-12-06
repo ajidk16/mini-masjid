@@ -137,7 +137,7 @@
 </script>
 
 <svelte:head>
-	<title>Dashboard | MiniMasjid</title>
+	<title>Dashboard | TadBeer</title>
 </svelte:head>
 
 <div class="space-y-6">

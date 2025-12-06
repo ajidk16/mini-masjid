@@ -114,7 +114,7 @@
 </script>
 
 <svelte:head>
-	<title>Donasi | MiniMasjid</title>
+	<title>Donasi | TadBeer</title>
 </svelte:head>
 
 <Toast />

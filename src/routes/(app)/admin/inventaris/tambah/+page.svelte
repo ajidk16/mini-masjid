@@ -41,7 +41,7 @@
 </script>
 
 <svelte:head>
-	<title>Tambah Aset | MiniMasjid</title>
+	<title>Tambah Aset | TadBeer</title>
 </svelte:head>
 
 <Toast />

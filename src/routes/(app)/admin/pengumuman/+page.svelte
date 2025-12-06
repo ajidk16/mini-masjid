@@ -128,7 +128,7 @@
 </script>
 
 <svelte:head>
-	<title>Pengumuman | MiniMasjid</title>
+	<title>Pengumuman | TadBeer</title>
 </svelte:head>
 
 <Toast />

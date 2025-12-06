@@ -139,7 +139,7 @@
 </script>
 
 <svelte:head>
-	<title>Pengeluaran | Keuangan | MiniMasjid</title>
+	<title>Pengeluaran | Keuangan | TadBeer</title>
 </svelte:head>
 
 <Toast />

@@ -151,7 +151,7 @@
 </script>
 
 <svelte:head>
-	<title>Pemasukan | Keuangan | MiniMasjid</title>
+	<title>Pemasukan | Keuangan | TadBeer</title>
 </svelte:head>
 
 <Toast />

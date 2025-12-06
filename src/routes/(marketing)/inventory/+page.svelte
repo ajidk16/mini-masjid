@@ -81,7 +81,7 @@
 </script>
 
 <svelte:head>
-	<title>Inventaris Masjid | MiniMasjid</title>
+	<title>Inventaris Masjid | TadBeer</title>
 </svelte:head>
 
 <div class="container mx-auto px-4 py-8 pb-24 md:pb-8">

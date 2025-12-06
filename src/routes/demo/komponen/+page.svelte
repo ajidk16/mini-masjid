@@ -87,7 +87,7 @@
 </script>
 
 <svelte:head>
-	<title>Demo Komponen - MiniMasjid</title>
+	<title>Demo Komponen - TadBeer</title>
 </svelte:head>
 
 <div class="space-y-8 container mx-auto px-4">

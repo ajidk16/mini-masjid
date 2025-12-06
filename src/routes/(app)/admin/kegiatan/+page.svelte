@@ -250,7 +250,7 @@
 </script>
 
 <svelte:head>
-	<title>Kegiatan | MiniMasjid</title>
+	<title>Kegiatan | TadBeer</title>
 </svelte:head>
 
 <Toast />

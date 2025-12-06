@@ -38,7 +38,7 @@
 			id: 5,
 			user: 'System',
 			action: 'Failed Login',
-			target: 'admin@minimasjid.com',
+			target: 'admin@TadBeer.com',
 			ip: '203.0.113.42',
 			time: '1 day ago'
 		}

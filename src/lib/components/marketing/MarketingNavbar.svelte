@@ -29,7 +29,7 @@
 			<!-- Logo -->
 			<a href="/" class="flex items-center gap-2 text-xl font-bold text-primary">
 				<span class="text-2xl">🕌</span>
-				<span>MiniMasjid</span>
+				<span>TadBeer</span>
 			</a>
 
 			<!-- Desktop Menu -->

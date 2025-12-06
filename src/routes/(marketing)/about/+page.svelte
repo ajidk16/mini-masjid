@@ -37,7 +37,7 @@
 </script>
 
 <svelte:head>
-	<title>Tentang Kami | MiniMasjid</title>
+	<title>Tentang Kami | TadBeer</title>
 </svelte:head>
 
 <div class="pb-24 md:pb-0">
@@ -60,7 +60,7 @@
 			<div class="space-y-6">
 				<h2 class="text-3xl font-bold text-primary">Sejarah Singkat</h2>
 				<p class="text-base-content/80 leading-relaxed">
-					Masjid MiniMasjid didirikan pada tahun 2010 atas inisiatif warga setempat yang merindukan
+					Masjid TadBeer didirikan pada tahun 2010 atas inisiatif warga setempat yang merindukan
 					tempat ibadah yang nyaman dan representatif. Berawal dari sebuah musholla kecil, kini
 					telah berkembang menjadi pusat kegiatan keagamaan dan sosial kemasyarakatan.
 				</p>
@@ -184,7 +184,7 @@
 						</div>
 						<div>
 							<div class="font-bold">Email</div>
-							<div class="text-sm opacity-70">info@minimasjid.com</div>
+							<div class="text-sm opacity-70">info@TadBeer.com</div>
 						</div>
 					</div>
 				</div>

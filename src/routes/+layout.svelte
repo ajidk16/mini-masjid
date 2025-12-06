@@ -7,7 +7,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<title>MiniMasjid - Sistem Manajemen Masjid</title>
+	<title>TadBeer - Sistem Manajemen Masjid</title>
 </svelte:head>
 
 {@render children()}

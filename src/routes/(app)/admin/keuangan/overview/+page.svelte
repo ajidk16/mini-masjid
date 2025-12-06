@@ -82,7 +82,7 @@
 </script>
 
 <svelte:head>
-	<title>Keuangan | MiniMasjid</title>
+	<title>Keuangan | TadBeer</title>
 </svelte:head>
 
 <div class="space-y-6">

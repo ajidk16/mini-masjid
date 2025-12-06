@@ -52,7 +52,7 @@
 </script>
 
 <svelte:head>
-	<title>Laporan {page.data.monthName} {page.data.year} | Keuangan | MiniMasjid</title>
+	<title>Laporan {page.data.monthName} {page.data.year} | Keuangan | TadBeer</title>
 </svelte:head>
 
 <div class="space-y-6">

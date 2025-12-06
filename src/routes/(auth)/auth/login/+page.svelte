@@ -26,7 +26,7 @@
 		<div class="relative z-10">
 			<a href="/" class="flex items-center gap-3 text-2xl font-bold">
 				<span class="text-4xl">🕌</span>
-				<span>MiniMasjid</span>
+				<span>TadBeer</span>
 			</a>
 		</div>
 
@@ -39,7 +39,7 @@
 		</div>
 
 		<div class="relative z-10 text-sm opacity-75">
-			&copy; {new Date().getFullYear()} MiniMasjid. All rights reserved.
+			&copy; {new Date().getFullYear()} TadBeer. All rights reserved.
 		</div>
 
 		<!-- Decorative Pattern Overlay -->

@@ -96,7 +96,7 @@
 </script>
 
 <svelte:head>
-	<title>Inventaris | MiniMasjid</title>
+	<title>Inventaris | TadBeer</title>
 </svelte:head>
 
 <Toast />

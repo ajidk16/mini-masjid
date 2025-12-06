@@ -1,4 +1,4 @@
-# Product Blueprint: MiniMasjid SaaS
+# Product Blueprint: TadBeer SaaS
 
 ## 🎯 Masalah yang Diselesaikan
 
@@ -86,7 +86,7 @@ Platform all-in-one berbasis cloud yang digitalisasi pengelolaan masjid dengan f
 4. **Donation Catalyst** - Jamaah yang lihat transparansi lebih termotivasi donasi
 
 ### Implementation
-- Public URL: `minimasjid.app/{masjid-slug}/finance`
+- Public URL: `TadBeer.app/{masjid-slug}/finance`
 - Anonymous mode: nama donatur ditutupi jika request
 - Widget embed untuk website masjid
 - QR code untuk ditempel di papan pengumuman masjid
@@ -311,7 +311,7 @@ Platform all-in-one berbasis cloud yang digitalisasi pengelolaan masjid dengan f
   - Privacy policy & terms of service
 
 - [ ] **Day 27-28**: Production deployment
-  - Setup domain (minimasjid.app)
+  - Setup domain (TadBeer.app)
   - SSL certificate
   - Environment variables untuk production
   - Monitoring (Sentry untuk error tracking)

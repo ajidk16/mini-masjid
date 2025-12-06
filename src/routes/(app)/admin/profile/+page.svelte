@@ -4,7 +4,7 @@
 	let user = {
 		name: 'Abdullah Al-Fatih',
 		role: 'Administrator',
-		email: 'abdullah@minimasjid.com',
+		email: 'abdullah@TadBeer.com',
 		phone: '+62 812-3456-7890',
 		location: 'Jakarta Selatan, Indonesia',
 		joined: 'January 2024',

@@ -78,7 +78,7 @@
 
 		<a href="/" class="btn btn-ghost text-xl font-bold text-primary lg:hidden">
 			<span>🕌</span>
-			<span class="hidden sm:inline">MiniMasjid</span>
+			<span class="hidden sm:inline">TadBeer</span>
 		</a>
 	</div>
 

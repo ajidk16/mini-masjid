@@ -90,7 +90,7 @@
 	<div class="p-4 border-b border-base-300">
 		<a href="/" class="flex items-center gap-3 text-xl font-bold text-primary">
 			<span class="text-2xl">🕌</span>
-			<span>MiniMasjid</span>
+			<span>TadBeer</span>
 		</a>
 	</div>
 
@@ -165,7 +165,7 @@
 
 	<!-- Footer -->
 	<div class="p-4 border-t border-base-300">
-		<p class="text-xs text-base-content/50">© 2025 MiniMasjid</p>
+		<p class="text-xs text-base-content/50">© 2025 TadBeer</p>
 		<p class="text-xs text-base-content/40">v1.0.0</p>
 	</div>
 </aside>

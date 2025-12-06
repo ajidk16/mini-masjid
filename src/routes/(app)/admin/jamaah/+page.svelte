@@ -169,7 +169,7 @@
 </script>
 
 <svelte:head>
-	<title>Jamaah | MiniMasjid</title>
+	<title>Jamaah | TadBeer</title>
 </svelte:head>
 
 <Toast />

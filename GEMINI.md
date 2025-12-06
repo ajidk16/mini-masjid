@@ -1,4 +1,4 @@
-# MiniMasjid - Project Context for AI Assistant
+# TadBeer - Project Context for AI Assistant
 
 ## Tech Stack
 

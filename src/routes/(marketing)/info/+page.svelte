@@ -18,7 +18,7 @@
 			category: 'Berita',
 			date: '10 Des 2023',
 			excerpt:
-				'Panitia Qurban Masjid MiniMasjid mulai menerima penyaluran hewan qurban sapi dan kambing mulai tanggal 1 Dzulhijjah.',
+				'Panitia Qurban Masjid TadBeer mulai menerima penyaluran hewan qurban sapi dan kambing mulai tanggal 1 Dzulhijjah.',
 			author: 'Panitia Qurban',
 			readTime: '3 min baca'
 		},
@@ -71,7 +71,7 @@
 </script>
 
 <svelte:head>
-	<title>Informasi & Berita | MiniMasjid</title>
+	<title>Informasi & Berita | TadBeer</title>
 </svelte:head>
 
 <div class="container mx-auto px-4 py-8 pb-24 md:pb-8">
@@ -118,7 +118,7 @@
 					Persiapan Menyambut Bulan Suci Ramadhan 1445H
 				</h2>
 				<p class="text-base-content/70 mb-4">
-					DKM MiniMasjid telah membentuk kepanitiaan untuk menyambut bulan suci Ramadhan. Berbagai
+					DKM TadBeer telah membentuk kepanitiaan untuk menyambut bulan suci Ramadhan. Berbagai
 					program unggulan telah disiapkan untuk memfasilitasi ibadah jamaah...
 				</p>
 				<div class="card-actions justify-end">

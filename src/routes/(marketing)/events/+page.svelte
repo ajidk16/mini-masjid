@@ -106,7 +106,7 @@
 </script>
 
 <svelte:head>
-	<title>Kegiatan Masjid | MiniMasjid</title>
+	<title>Kegiatan Masjid | TadBeer</title>
 </svelte:head>
 
 <div class="container mx-auto px-4 py-8 pb-24 md:pb-8">

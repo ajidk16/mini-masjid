@@ -52,7 +52,7 @@
 </script>
 
 <svelte:head>
-	<title>Edit Aset | MiniMasjid</title>
+	<title>Edit Aset | TadBeer</title>
 </svelte:head>
 
 <Toast />

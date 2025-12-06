@@ -9,7 +9,7 @@
 			<div class="space-y-4">
 				<a href="/" class="flex items-center gap-2 text-xl font-bold text-primary">
 					<span class="text-2xl">🕌</span>
-					<span>MiniMasjid</span>
+					<span>TadBeer</span>
 				</a>
 				<p class="text-sm text-base-content/70">
 					Sistem manajemen masjid modern untuk membantu DKM mengelola inventaris dan kegiatan umat
@@ -84,7 +84,7 @@
 					</li>
 					<li class="flex items-center gap-3">
 						<Mail class="h-5 w-5 shrink-0 text-primary" />
-						<span>info@minimasjid.com</span>
+						<span>info@TadBeer.com</span>
 					</li>
 				</ul>
 			</div>
@@ -92,7 +92,7 @@
 
 		<div class="mt-12 border-t border-base-300 pt-8 text-center text-sm text-base-content/60">
 			<p>
-				&copy; {new Date().getFullYear()} MiniMasjid. All rights reserved. Dibuat dengan ❤️ untuk umat.
+				&copy; {new Date().getFullYear()} TadBeer. All rights reserved. Dibuat dengan ❤️ untuk umat.
 			</p>
 		</div>
 	</div>

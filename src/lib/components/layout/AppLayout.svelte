@@ -52,7 +52,7 @@
 
 		<!-- Footer -->
 		<footer class="p-4 border-t border-base-200 text-center text-xs text-base-content/50">
-			<p>© 2025 MiniMasjid. Dibangun dengan ❤️ untuk umat.</p>
+			<p>© 2025 TadBeer. Dibangun dengan ❤️ untuk umat.</p>
 		</footer>
 	</div>
 

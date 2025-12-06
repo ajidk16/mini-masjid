@@ -70,7 +70,7 @@
 </script>
 
 <svelte:head>
-	<title>Laporan Keuangan | MiniMasjid</title>
+	<title>Laporan Keuangan | TadBeer</title>
 </svelte:head>
 
 <div class="space-y-6">
