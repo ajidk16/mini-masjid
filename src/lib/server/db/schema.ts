@@ -243,3 +243,14 @@ export const auditLog = pgTable('audit_log', {
 	userAgent: text('user_agent'),
 	createdAt: timestamp('created_at').defaultNow().notNull()
 });
+
+/**
+ * Protected Routes for Dynamic RBAC
+ */
+export const protectedRoute = pgTable('protected_route', {
+	id: serial('id').primaryKey(),
+	prefix: text('prefix').notNull().unique(), // e.g., '/admin/users'
+	roles: text('roles').array().notNull(), // e.g., ['super_admin']
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
+});
