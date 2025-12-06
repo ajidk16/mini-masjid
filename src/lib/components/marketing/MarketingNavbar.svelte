@@ -21,7 +21,6 @@
 	}
 
 	const user = $derived(page.data.profile);
-	console.log('user navbar', user);
 </script>
 
 <nav class="navbar fixed top-0 z-50 w-full border-b-0 shadow-sm glass">
@@ -49,25 +48,10 @@
 			<!-- Desktop CTA -->
 			<div class="hidden items-center gap-4 md:flex">
 				{#if user}
-					<a
-						href="/admin/dashboard"
-						class="btn btn-outline"
-					>
-						Dashboard
-					</a>
+					<a href="/admin/dashboard" class="btn btn-outline"> Dashboard </a>
 				{:else}
-					<a
-						href="/auth/login"
-						class="btn btn-outline"
-					>
-						Masuk
-					</a>
-					<a
-						href="/auth/register"
-						class="btn btn-primary text-white"
-					>
-						Daftar Sekarang
-					</a>
+					<a href="/auth/login" class="btn btn-outline"> Masuk </a>
+					<a href="/auth/register" class="btn btn-primary text-white"> Daftar Sekarang </a>
 				{/if}
 			</div>
 

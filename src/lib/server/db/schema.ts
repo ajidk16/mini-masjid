@@ -7,7 +7,8 @@ import {
 	boolean,
 	pgEnum,
 	date,
-	decimal
+	decimal,
+	jsonb
 } from 'drizzle-orm/pg-core';
 
 // --- Enums ---
@@ -53,6 +54,31 @@ export const announcementCategoryEnum = pgEnum('announcement_category', [
 
 export const otpTypeEnum = pgEnum('otp_type', ['email_verification', 'password_reset']);
 
+/**
+ * Roles for Dynamic RBAC
+ */
+export const roles = pgTable('roles', {
+	id: serial('id').primaryKey(),
+	name: text('name').notNull().unique(),
+	description: text('description'),
+	permissions: jsonb('permissions'), // List of allowed actions/routes
+	isSystem: boolean('is_system').default(false).notNull(), // Prevents deletion of core roles
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
+});
+
+/**
+ * System Configuration
+ */
+export const systemConfig = pgTable('system_config', {
+	key: text('key').primaryKey(),
+	value: text('value'), // Can be JSON stringified
+	type: text('type').default('string').notNull(), // string, number, boolean, json
+	group: text('group').default('general').notNull(), // general, security
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
+});
+
 // --- Tables ---
 
 /**
@@ -63,7 +89,8 @@ export const user = pgTable('user', {
 	username: text('username').notNull().unique(),
 	passwordHash: text('password_hash').notNull(),
 	fullName: text('full_name'),
-	role: roleEnum('role').default('jamaah').notNull(),
+	roleId: integer('role_id').references(() => roles.id),
+	role: roleEnum('role').default('jamaah').notNull(), // Deprecated in favor of roleId
 	phone: text('phone'),
 	avatarUrl: text('avatar_url'),
 	emailVerified: timestamp('email_verified'),
@@ -104,6 +131,7 @@ export const mosqueProfile = pgTable('mosque_profile', {
 	vision: text('vision'),
 	mission: text('mission'),
 	history: text('history'),
+	imageUrl: text('image_url'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });

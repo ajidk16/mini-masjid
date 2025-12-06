@@ -1,5 +1,5 @@
 import type { RequestEvent } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
 import { db } from '$lib/server/db';
@@ -31,11 +31,16 @@ export async function validateSessionToken(token: string) {
 	const [result] = await db
 		.select({
 			// Adjust user table here to tweak returned data
-			user: { id: table.user.id, username: table.user.username, role: table.user.role },
+			user: {
+				id: table.user.id,
+				username: table.user.username,
+				role: sql<string>`COALESCE(${table.roles.name}, ${table.user.role}::text)`
+			},
 			session: table.session
 		})
 		.from(table.session)
 		.innerJoin(table.user, eq(table.session.userId, table.user.id))
+		.leftJoin(table.roles, eq(table.user.roleId, table.roles.id))
 		.where(eq(table.session.id, sessionId));
 
 	if (!result) {

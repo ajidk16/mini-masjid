@@ -45,3 +45,31 @@ export type LoginSchema = typeof loginSchema;
 export type VerifySchema = typeof verifySchema;
 export type ForgotPasswordSchema = typeof forgotPasswordSchema;
 export type ChangePasswordSchema = typeof changePasswordSchema;
+
+export const mosqueProfileSchema = v.object({
+	name: v.pipe(v.string(), v.minLength(3, 'Name is required')),
+	address: v.pipe(v.string(), v.minLength(5, 'Address is required')),
+	phone: v.optional(v.string()),
+	email: v.optional(v.pipe(v.string(), v.email())),
+	website: v.optional(v.string()),
+	vision: v.optional(v.string()),
+	mission: v.optional(v.string()),
+	history: v.optional(v.string()),
+	imageUrl: v.optional(v.string())
+});
+
+export type MosqueProfileSchema = typeof mosqueProfileSchema;
+
+export const inviteUserSchema = v.object({
+	name: v.pipe(v.string(), v.minLength(3, 'Name is required')),
+	email: v.pipe(v.string(), v.email('Invalid email address')),
+	roleId: v.number('Role is required')
+});
+
+export const updateUserRoleSchema = v.object({
+	userId: v.string(),
+	roleId: v.number('Role is required')
+});
+
+export type InviteUserSchema = typeof inviteUserSchema;
+export type UpdateUserRoleSchema = typeof updateUserRoleSchema;
