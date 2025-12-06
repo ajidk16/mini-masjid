@@ -60,6 +60,7 @@
 		"@neondatabase/serverless": "^1.0.2",
 		"@node-rs/argon2": "^2.0.2",
 		"apexcharts": "^5.3.6",
+		"estree-walker": "^3.0.0",
 		"lucide-svelte": "^0.555.0",
 		"postgres": "^3.4.7"
 	}
