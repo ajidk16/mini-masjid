@@ -7,7 +7,7 @@ import {
 	boolean,
 	pgEnum,
 	date,
-	decimal,
+	decimal
 } from 'drizzle-orm/pg-core';
 
 // --- Enums ---
@@ -51,6 +51,8 @@ export const announcementCategoryEnum = pgEnum('announcement_category', [
 	'jadwal'
 ]);
 
+export const otpTypeEnum = pgEnum('otp_type', ['email_verification', 'password_reset']);
+
 // --- Tables ---
 
 /**
@@ -64,6 +66,7 @@ export const user = pgTable('user', {
 	role: roleEnum('role').default('jamaah').notNull(),
 	phone: text('phone'),
 	avatarUrl: text('avatar_url'),
+	emailVerified: timestamp('email_verified'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull(),
 	deletedAt: timestamp('deleted_at')
@@ -75,6 +78,17 @@ export const session = pgTable('session', {
 		.notNull()
 		.references(() => user.id),
 	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull()
+});
+
+export const otp = pgTable('otp', {
+	id: serial('id').primaryKey(),
+	userId: text('user_id')
+		.notNull()
+		.references(() => user.id),
+	code: text('code').notNull(), // Hashed OTP
+	type: otpTypeEnum('type').notNull(),
+	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull(),
+	createdAt: timestamp('created_at').defaultNow().notNull()
 });
 
 /**

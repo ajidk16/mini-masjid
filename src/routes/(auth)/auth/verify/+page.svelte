@@ -1,59 +1,76 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { CheckCircle, XCircle, Loader2, ArrowRight } from 'lucide-svelte';
+	import { superForm } from 'sveltekit-superforms';
+	import { CheckCircle, AlertCircle } from 'lucide-svelte';
+	import type { PageData } from './$types';
+	import { verifySchema } from '$lib/schemas';
+	import { valibotClient } from 'sveltekit-superforms/adapters';
 
-	let status = $state<'loading' | 'success' | 'error'>('loading');
+	let { data }: { data: PageData } = $props();
 
-	onMount(() => {
-		// Simulate token verification
-		setTimeout(() => {
-			// Randomly succeed or fail for demo purposes
-			status = Math.random() > 0.3 ? 'success' : 'error';
-
-			if (status === 'success') {
-				// Auto redirect after 2 seconds
-				setTimeout(() => {
-					window.location.href = '/auth/change-password';
-				}, 2000);
-			}
-		}, 2000);
+	const { form, errors, constraints, enhance, delayed, message } = superForm(data.form, {
+		validators: valibotClient(verifySchema)
 	});
 </script>
 
-<div class="min-h-screen flex items-center justify-center bg-base-200 p-4">
-	<div class="card bg-base-100 shadow-xl w-full max-w-md text-center">
-		<div class="card-body p-8 items-center">
-			{#if status === 'loading'}
-				<div class="w-16 h-16 flex items-center justify-center mb-4">
-					<Loader2 class="w-10 h-10 text-primary animate-spin" />
-				</div>
-				<h2 class="text-xl font-bold">Verifying Token...</h2>
-				<p class="text-base-content/60 mt-2">Please wait while we verify your link.</p>
-			{:else if status === 'success'}
-				<div
-					class="w-16 h-16 bg-success/10 text-success rounded-full flex items-center justify-center mb-4 animate-bounce-gentle"
+<div class="min-h-screen flex items-center justify-center bg-base-100 p-4">
+	<div class="w-full max-w-md space-y-8">
+		<div class="text-center">
+			<h1 class="text-3xl font-bold">Verify Your Email</h1>
+			<p class="text-base-content/60 mt-2">
+				We sent a verification code to <span class="font-medium text-base-content"
+					>{$form.email}</span
 				>
-					<CheckCircle class="w-8 h-8" />
-				</div>
-				<h2 class="text-xl font-bold">Email Verified!</h2>
-				<p class="text-base-content/60 mt-2">Redirecting you to reset your password...</p>
-				<div class="mt-6">
-					<a href="/auth/change-password" class="btn btn-primary btn-sm">
-						Continue <ArrowRight class="w-4 h-4 ml-1" />
-					</a>
-				</div>
-			{:else}
-				<div
-					class="w-16 h-16 bg-error/10 text-error rounded-full flex items-center justify-center mb-4"
-				>
-					<XCircle class="w-8 h-8" />
-				</div>
-				<h2 class="text-xl font-bold">Invalid or Expired Link</h2>
-				<p class="text-base-content/60 mt-2">This password reset link is invalid or has expired.</p>
-				<div class="mt-6">
-					<a href="/forgot-password" class="btn btn-outline"> Resend Link </a>
-				</div>
-			{/if}
+			</p>
+		</div>
+
+		{#if $message}
+			<div class="alert alert-error">
+				<AlertCircle class="w-5 h-5" />
+				<span>{$message}</span>
+			</div>
+		{/if}
+
+		<form method="POST" use:enhance class="space-y-6">
+			<input type="hidden" name="email" bind:value={$form.email} />
+
+			<div class="form-control">
+				<label class="label" for="otp">
+					<span class="label-text font-medium">Verification Code</span>
+				</label>
+				<input
+					type="text"
+					id="otp"
+					name="otp"
+					bind:value={$form.otp}
+					placeholder="123456"
+					class="input input-bordered w-full text-center text-2xl tracking-widest {$errors.otp
+						? 'input-error'
+						: ''}"
+					maxlength="6"
+					{...$constraints.otp}
+				/>
+				{#if $errors.otp}
+					<div class="label">
+						<span class="label-text-alt text-error">{$errors.otp}</span>
+					</div>
+				{/if}
+			</div>
+
+			<button type="submit" class="btn btn-primary w-full" disabled={$delayed}>
+				{#if $delayed}
+					<span class="loading loading-spinner loading-sm"></span>
+					Verifying...
+				{:else}
+					Verify Email <CheckCircle class="w-4 h-4 ml-2" />
+				{/if}
+			</button>
+		</form>
+
+		<div class="text-center text-sm">
+			<span class="text-base-content/60">Didn't receive the code?</span>
+			<button class="link link-primary font-medium no-underline hover:underline ml-1">
+				Resend Code
+			</button>
 		</div>
 	</div>
 </div>

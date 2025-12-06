@@ -391,7 +391,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 <!-- +page.svelte -->
 <script lang="ts">
-  let { data } = $props();
+  import { page } from '$app/stores';
 </script>
 ```
 

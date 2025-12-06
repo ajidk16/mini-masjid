@@ -1,25 +1,19 @@
 <script lang="ts">
-	import { Eye, EyeOff, LogIn, ArrowRight } from 'lucide-svelte';
+	import { Eye, EyeOff, LogIn, AlertCircle } from 'lucide-svelte';
+	import { superForm } from 'sveltekit-superforms';
+	import { loginSchema } from '$lib/schemas';
+	import { valibotClient } from 'sveltekit-superforms/adapters';
+	import { page } from '$app/state';
 
-	let email = $state('');
-	let password = $state('');
+	const { form, errors, constraints, enhance, delayed, message } = superForm(page.data.form, {
+		validators: valibotClient(loginSchema)
+	});
+
 	let showPassword = $state(false);
-	let isLoading = $state(false);
-	let rememberMe = $state(false);
-
-	function handleSubmit(e: Event) {
-		e.preventDefault();
-		isLoading = true;
-		// Simulate API call
-		setTimeout(() => {
-			isLoading = false;
-			// Handle success/error
-		}, 1500);
-	}
 </script>
 
 <div class="min-h-screen flex bg-base-100">
-	<!-- Left Side: Branding & Illustration (Hidden on mobile) -->
+	<!-- Left Side: Branding (Hidden on mobile) -->
 	<div
 		class="hidden lg:flex lg:w-1/2 bg-primary text-primary-content flex-col justify-between p-12 relative overflow-hidden"
 	>
@@ -31,10 +25,9 @@
 		</div>
 
 		<div class="relative z-10 max-w-md">
-			<h2 class="text-4xl font-bold mb-6">Manage Your Masjid with Ease & Barakah.</h2>
+			<h2 class="text-4xl font-bold mb-6">Welcome Back.</h2>
 			<p class="text-lg opacity-90">
-				Streamline operations, manage donations, and connect with your jamaah in one unified
-				platform.
+				Sign in to access your dashboard and manage your masjid activities.
 			</p>
 		</div>
 
@@ -42,7 +35,6 @@
 			&copy; {new Date().getFullYear()} TadBeer. All rights reserved.
 		</div>
 
-		<!-- Decorative Pattern Overlay -->
 		<div class="absolute inset-0 opacity-10 pattern-islamic"></div>
 	</div>
 
@@ -50,11 +42,18 @@
 	<div class="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-12">
 		<div class="w-full max-w-md space-y-8">
 			<div class="text-center lg:text-left">
-				<h1 class="text-3xl font-bold">Welcome Back</h1>
-				<p class="text-base-content/60 mt-2">Sign in to your account to continue.</p>
+				<h1 class="text-3xl font-bold">Sign In</h1>
+				<p class="text-base-content/60 mt-2">Enter your credentials to access your account.</p>
 			</div>
 
-			<form onsubmit={handleSubmit} class="space-y-6">
+			{#if $message}
+				<div class="alert alert-error">
+					<AlertCircle class="w-5 h-5" />
+					<span>{$message}</span>
+				</div>
+			{/if}
+
+			<form method="POST" use:enhance class="space-y-5">
 				<div class="form-control">
 					<label class="label" for="email">
 						<span class="label-text font-medium">Email Address</span>
@@ -62,11 +61,18 @@
 					<input
 						type="email"
 						id="email"
-						bind:value={email}
+						name="email"
+						bind:value={$form.email}
+						aria-invalid={$errors.email ? 'true' : undefined}
 						placeholder="name@example.com"
-						class="input input-bordered w-full"
-						required
+						class="input input-bordered w-full {$errors.email ? 'input-error' : ''}"
+						{...$constraints.email}
 					/>
+					{#if $errors.email}
+						<label for="" class="label">
+							<span class="label-text-alt text-error">{$errors.email}</span>
+						</label>
+					{/if}
 				</div>
 
 				<div class="form-control">
@@ -77,14 +83,15 @@
 						<input
 							type={showPassword ? 'text' : 'password'}
 							id="password"
-							bind:value={password}
-							placeholder="Enter your password"
-							class="input input-bordered w-full pr-10"
-							required
+							name="password"
+							bind:value={$form.password}
+							aria-invalid={$errors.password ? 'true' : undefined}
+							class="input input-bordered w-full pr-10 {$errors.password ? 'input-error' : ''}"
+							{...$constraints.password}
 						/>
 						<button
 							type="button"
-							class="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/50 hover:text-base-content"
+							class="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/50 hover:text-base-content z-10"
 							onclick={() => (showPassword = !showPassword)}
 						>
 							{#if showPassword}
@@ -94,41 +101,35 @@
 							{/if}
 						</button>
 					</div>
-					<label for="forgot-password" class="label justify-end">
-						<a
-							href="/forgot-password"
-							class="label-text-alt link link-primary no-underline hover:underline"
-						>
+					{#if $errors.password}
+						<label for="password" class="label">
+							<span class="label-text-alt text-error">{$errors.password}</span>
+						</label>
+					{/if}
+					<label for="" class="label">
+						<a href="/auth/forgot-password" class="label-text-alt link link-primary">
 							Forgot password?
 						</a>
 					</label>
 				</div>
 
-				<div class="form-control">
-					<label class="label cursor-pointer justify-start gap-3">
-						<input
-							type="checkbox"
-							bind:checked={rememberMe}
-							class="checkbox checkbox-primary checkbox-sm"
-						/>
-						<span class="label-text">Remember me for 30 days</span>
-					</label>
-				</div>
-
-				<button type="submit" class="btn btn-primary w-full" disabled={isLoading}>
-					{#if isLoading}
+				<button type="submit" class="btn btn-primary w-full" disabled={$delayed}>
+					{#if $delayed}
 						<span class="loading loading-spinner loading-sm"></span>
 						Signing in...
 					{:else}
-						Sign In <ArrowRight class="w-4 h-4 ml-2" />
+						Sign In <LogIn class="w-4 h-4 ml-2" />
 					{/if}
 				</button>
 			</form>
 
 			<div class="text-center text-sm">
 				<span class="text-base-content/60">Don't have an account?</span>
-				<a href="/register" class="link link-primary font-medium no-underline hover:underline ml-1">
-					Create an account
+				<a
+					href="/auth/register"
+					class="link link-primary font-medium no-underline hover:underline ml-1"
+				>
+					Create account
 				</a>
 			</div>
 		</div>
@@ -136,7 +137,6 @@
 </div>
 
 <style>
-	/* Simple pattern placeholder - can be replaced with SVG */
 	.pattern-islamic {
 		background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0);
 		background-size: 20px 20px;

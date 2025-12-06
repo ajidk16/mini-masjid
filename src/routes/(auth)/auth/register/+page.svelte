@@ -1,27 +1,32 @@
 <script lang="ts">
-	import { Eye, EyeOff, UserPlus, ArrowRight, Check, X } from 'lucide-svelte';
+	import { Eye, EyeOff, UserPlus, X } from 'lucide-svelte';
+	import { superForm } from 'sveltekit-superforms';
+	import type { PageData } from './$types';
+	import { registerSchema } from '$lib/schemas';
+	import { valibotClient } from 'sveltekit-superforms/adapters';
 
-	let name = $state('');
-	let email = $state('');
-	let password = $state('');
-	let confirmPassword = $state('');
+	let { data }: { data: PageData } = $props();
+
+	const { form, errors, constraints, enhance, delayed } = superForm(data.form, {
+		validators: valibotClient(registerSchema)
+	});
+
 	let showPassword = $state(false);
 	let showConfirm = $state(false);
-	let isLoading = $state(false);
 	let acceptedTerms = $state(false);
 
 	// Password Strength Logic
 	let strength = $derived.by(() => {
 		let score = 0;
-		if (password.length > 8) score++;
-		if (/[A-Z]/.test(password)) score++;
-		if (/[0-9]/.test(password)) score++;
-		if (/[^A-Za-z0-9]/.test(password)) score++;
+		if ($form.password.length > 8) score++;
+		if (/[A-Z]/.test($form.password)) score++;
+		if (/[0-9]/.test($form.password)) score++;
+		if (/[^A-Za-z0-9]/.test($form.password)) score++;
 		return score;
 	});
 
 	let strengthLabel = $derived.by(() => {
-		if (password.length === 0) return '';
+		if ($form.password.length === 0) return '';
 		if (strength <= 1) return 'Weak';
 		if (strength === 2) return 'Medium';
 		if (strength >= 3) return 'Strong';
@@ -34,18 +39,6 @@
 		if (strength >= 3) return 'bg-success';
 		return 'bg-base-300';
 	});
-
-	let passwordsMatch = $derived(password === confirmPassword && password.length > 0);
-
-	function handleSubmit(e: Event) {
-		e.preventDefault();
-		if (!passwordsMatch || !acceptedTerms) return;
-
-		isLoading = true;
-		setTimeout(() => {
-			isLoading = false;
-		}, 1500);
-	}
 </script>
 
 <div class="min-h-screen flex bg-base-100">
@@ -82,7 +75,7 @@
 				<p class="text-base-content/60 mt-2">Get started with your free account.</p>
 			</div>
 
-			<form onsubmit={handleSubmit} class="space-y-5">
+			<form method="POST" use:enhance class="space-y-5">
 				<div class="form-control">
 					<label class="label" for="name">
 						<span class="label-text font-medium">Full Name</span>
@@ -90,11 +83,18 @@
 					<input
 						type="text"
 						id="name"
-						bind:value={name}
+						name="name"
+						bind:value={$form.name}
+						aria-invalid={$errors.name ? 'true' : undefined}
 						placeholder="Abdullah Al-Fatih"
-						class="input input-bordered w-full"
-						required
+						class="input input-bordered w-full {$errors.name ? 'input-error' : ''}"
+						{...$constraints.name}
 					/>
+					{#if $errors.name}
+						<label class="label">
+							<span class="label-text-alt text-error">{$errors.name}</span>
+						</label>
+					{/if}
 				</div>
 
 				<div class="form-control">
@@ -104,11 +104,18 @@
 					<input
 						type="email"
 						id="email"
-						bind:value={email}
+						name="email"
+						bind:value={$form.email}
+						aria-invalid={$errors.email ? 'true' : undefined}
 						placeholder="name@example.com"
-						class="input input-bordered w-full"
-						required
+						class="input input-bordered w-full {$errors.email ? 'input-error' : ''}"
+						{...$constraints.email}
 					/>
+					{#if $errors.email}
+						<label class="label">
+							<span class="label-text-alt text-error">{$errors.email}</span>
+						</label>
+					{/if}
 				</div>
 
 				<div class="form-control">
@@ -119,14 +126,15 @@
 						<input
 							type={showPassword ? 'text' : 'password'}
 							id="password"
-							bind:value={password}
-							class="input input-bordered w-full pr-10"
-							required
-							minlength="8"
+							name="password"
+							bind:value={$form.password}
+							aria-invalid={$errors.password ? 'true' : undefined}
+							class="input input-bordered w-full pr-10 {$errors.password ? 'input-error' : ''}"
+							{...$constraints.password}
 						/>
 						<button
 							type="button"
-							class="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/50 hover:text-base-content"
+							class="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/50 hover:text-base-content z-10"
 							onclick={() => (showPassword = !showPassword)}
 						>
 							{#if showPassword}
@@ -136,8 +144,13 @@
 							{/if}
 						</button>
 					</div>
+					{#if $errors.password}
+						<label class="label">
+							<span class="label-text-alt text-error">{$errors.password}</span>
+						</label>
+					{/if}
 					<!-- Strength Meter -->
-					{#if password.length > 0}
+					{#if $form.password.length > 0}
 						<div class="mt-2 flex items-center gap-2">
 							<div class="h-1.5 flex-1 bg-base-200 rounded-full overflow-hidden">
 								<div
@@ -166,15 +179,17 @@
 						<input
 							type={showConfirm ? 'text' : 'password'}
 							id="confirm"
-							bind:value={confirmPassword}
-							class="input input-bordered w-full pr-10 {confirmPassword && !passwordsMatch
+							name="confirmPassword"
+							bind:value={$form.confirmPassword}
+							aria-invalid={$errors.confirmPassword ? 'true' : undefined}
+							class="input input-bordered w-full pr-10 {$errors.confirmPassword
 								? 'input-error'
 								: ''}"
-							required
+							{...$constraints.confirmPassword}
 						/>
 						<button
 							type="button"
-							class="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/50 hover:text-base-content"
+							class="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/50 hover:text-base-content z-10"
 							onclick={() => (showConfirm = !showConfirm)}
 						>
 							{#if showConfirm}
@@ -184,10 +199,11 @@
 							{/if}
 						</button>
 					</div>
-					{#if confirmPassword && !passwordsMatch}
+					{#if $errors.confirmPassword}
 						<label class="label">
 							<span class="label-text-alt text-error flex items-center gap-1">
-								<X class="w-3 h-3" /> Passwords do not match
+								<X class="w-3 h-3" />
+								{$errors.confirmPassword}
 							</span>
 						</label>
 					{/if}
@@ -208,12 +224,8 @@
 					</label>
 				</div>
 
-				<button
-					type="submit"
-					class="btn btn-primary w-full"
-					disabled={isLoading || !acceptedTerms || !passwordsMatch}
-				>
-					{#if isLoading}
+				<button type="submit" class="btn btn-primary w-full" disabled={$delayed || !acceptedTerms}>
+					{#if $delayed}
 						<span class="loading loading-spinner loading-sm"></span>
 						Creating Account...
 					{:else}
@@ -224,7 +236,10 @@
 
 			<div class="text-center text-sm">
 				<span class="text-base-content/60">Already have an account?</span>
-				<a href="/login" class="link link-primary font-medium no-underline hover:underline ml-1">
+				<a
+					href="/auth/login"
+					class="link link-primary font-medium no-underline hover:underline ml-1"
+				>
 					Sign in
 				</a>
 			</div>

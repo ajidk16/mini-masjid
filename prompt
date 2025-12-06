@@ -2,3 +2,27 @@ Buatkan UI/UX plan profesional dan modern.
 UI harus elegan, minimalis, responsif, accessible, dan mengikuti best practice modern. Sertakan hal-hal berikut:
 ...
 ...
+
+
+buat planning 
+Bertindaklah sebagai seorang *Senior Fullstack Engineer* dengan pengalaman lebih dari 7 tahun. Buatkan *implementation plan* yang lengkap, terstruktur, dan langsung dapat diimplementasikan untuk rangkaian fitur otentikasi berikut: *register*, *login*, *forgot password*, *verify*, *change password*, dan *logout*.
+
+Ketentuan dan ekspektasi jawaban:
+
+1. Jawaban harus teknis, praktis, terstruktur, serta dapat langsung diterapkan dalam proyek produksi.
+2. Untuk setiap form (*register, login, forgot password, verify, change password*), sertakan validasi input secara lengkap sesuai dengan schema database yang digunakan.
+3. Alur utama yang harus dijelaskan dan dirinci:
+   register → forgot password → verify → change password → login → logout.
+4. Pada proses forgot password, sistem harus mengirimkan email menggunakan Nodemailer, berisi OTP atau kode verifikasi. Setelah itu pengguna menjalani proses:
+   verify OTP → change password → login.
+5. Setelah pengguna berhasil login, sertakan mekanisme yang jelas untuk melakukan logout (misalnya: invalidasi token, penghapusan session, atau mekanisme lain sesuai arsitektur).
+
+Pastikan output mencakup:
+
+* Flow diagram (teks)
+* API contract untuk setiap endpoint
+* Validasi bentuk data request/response
+* Struktur tabel atau schema yang digunakan
+* Contoh implementasi kode (jika relevan)
+* Mekanisme keamanan (rate limit, OTP expiry, hashing, token, dsb.)
+* Potensi risiko dan mitigasi
